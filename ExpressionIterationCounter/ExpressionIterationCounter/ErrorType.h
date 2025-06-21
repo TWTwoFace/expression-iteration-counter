@@ -1,15 +1,16 @@
 #pragma once
 enum class ErrorType
 {
+	FileIsEmpty,
 	FileDoesNotExists,
 	FileCouldNotBeCreated,
 	TreeFileHasExtraLines,
+	TreeFileMissingOperator,
 	TreeFileHasNotExpression,
 	TreeFileHasUndefinedOperators,
 	TreeFileMissingOperand,
 	TreeFileHasExtraOperands,
 	TreeFileFloatingValueAsIndex,
-	TreeFileFloatingValuesAsIndex,
 	TypeFileHasUndefinedType,
 	TypeFileMissingTypeVariable,
 	TypeFileTypeOverlapsConstant,

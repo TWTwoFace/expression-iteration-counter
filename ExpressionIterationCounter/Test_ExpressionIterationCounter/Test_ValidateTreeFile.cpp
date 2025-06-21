@@ -15,7 +15,7 @@ namespace TestExpressionIterationCounter
 
 		TEST_METHOD(MoreThanOneString)
 		{
-			std::vector<std::string> fileData = { "3 6 +" };
+			std::vector<std::string> fileData = { "3 6 +", "3 6 +" };
 
 			ErrorLogger logger;
 
