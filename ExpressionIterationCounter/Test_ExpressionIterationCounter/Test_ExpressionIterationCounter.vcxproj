@@ -175,6 +175,7 @@
     </ClCompile>
     <ClCompile Include="Test_Operation.cpp" />
     <ClCompile Include="Test_ValidateTreeFile.cpp" />
+    <ClCompile Include="Test_ValidateTypesFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IsErrorsInLogger.h" />

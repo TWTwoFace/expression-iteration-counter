@@ -13,7 +13,15 @@ enum class ErrorType
 	TypeFileHasUndefinedType,
 	TypeFileMissingTypeVariable,
 	TypeFileTypeOverlapsConstant,
+	TypeFileHasExtraVariable,
+	TypeFileTypeOverlapsKeyword,
+	TypeFileHasInvalidVariableName,
+	TypeFileMissingVariableName,
 	OperatorFileMissingOperator,
+	OperatorFileHasUndefinedType,
 	OperatorFileHasUndefinedOperator,
-	OperatorFileMissingOperatorType
+	OperatorFileMissingCount,
+	OperatorFileMissingOperatorType,
+	OperatorFileHasInvalidCount,
+	OperatorFileMissingValueType
 };
