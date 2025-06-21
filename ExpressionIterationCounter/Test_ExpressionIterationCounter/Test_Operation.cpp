@@ -82,7 +82,7 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Multiply][ValueType::Int] = 20;
 
 			iterationCorrespondes[Operator::Substract] = std::map<ValueType, int>();
-			iterationCorrespondes[Operator::Substract][ValueType::Int] = 10;
+			iterationCorrespondes[Operator::Substract][ValueType::Int] = 12;
 
 			Operation leftChild(Operator::Multiply, &iterationCorrespondes);
 			leftChild.AddOperand(ValueType::Int);

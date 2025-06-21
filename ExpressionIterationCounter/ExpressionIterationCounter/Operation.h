@@ -24,6 +24,6 @@ public:
 	Operation(Operator operatorType, std::map<Operator, std::map<ValueType, int>>* iterationCorrespondes);
 	ValueType GetType();
 	bool AddOperand(ValueType operandType);
-	int GetIterationsCount(std::set<Operation*> passedNodes);
+	int GetIterationsCount(std::set<Operation*> &passedNodes);
 };
 
