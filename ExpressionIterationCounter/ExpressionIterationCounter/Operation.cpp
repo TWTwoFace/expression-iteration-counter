@@ -7,7 +7,7 @@ ValueType Operation::FetchTypes()
 
 ValueType Operation::GetType()
 {
-    ValueType::Short;
+    return ValueType::Short;
 }
 
 bool Operation::AddOperand()
