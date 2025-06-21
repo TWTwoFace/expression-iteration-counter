@@ -2,7 +2,6 @@
 #include <string>
 #include "ErrorType.h"
 
-
 class Error
 {
 private:

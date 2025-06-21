@@ -4,7 +4,6 @@
 #include "Operator.h"
 #include "ValueType.h"
 
-
 class Operation
 {
 public:

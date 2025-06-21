@@ -2,7 +2,6 @@
 #include <vector>
 #include "Error.h"
 
-
 class Logger
 {
 private:
