@@ -7,19 +7,20 @@
 class Operation
 {
 public:
-	Operation* leftChild;
-	Operation* rightChild;
-	Operator expOperator;
+	Operation* leftChild = NULL;
+	Operation* rightChild = NULL;
 
 private:
 	std::vector<ValueType> operandTypes;
 	std::map<Operator, std::map<ValueType, int>>* iterationsByOperatorCorrespondes;
-	ValueType type;
+	Operator expOperator;
+	ValueType type = ValueType::None;
 
 private:
 	ValueType FetchTypes();
 
 public:
+	Operation(Operator operatorType, std::map<Operator, std::map<ValueType, int>>* iterationCorrespondes);
 	ValueType GetType();
 	bool AddOperand(ValueType operandType);
 	int GetIterationsCount();

@@ -1,6 +1,7 @@
 #pragma once
 enum class ValueType
 {
+	None,
 	Short,
 	Int,
 	Long,
