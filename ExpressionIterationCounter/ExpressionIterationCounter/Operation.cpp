@@ -21,7 +21,7 @@ bool Operation::AddOperand(ValueType operandType)
     return false;
 }
 
-int Operation::GetIterationsCount()
+int Operation::GetIterationsCount(std::set<Operation*> passedNodes)
 {
     return 0;
 }
