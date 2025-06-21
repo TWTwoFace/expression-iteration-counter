@@ -2,15 +2,13 @@
 enum class ValueType
 {
 	None,
+	Bool,
 	Short,
 	Int,
 	Long,
 	Float,
 	Double,
-	Bool,
 	Char,
-	True,
-	False,
 	ShortArray,
 	IntArray,
 	LongArray,
