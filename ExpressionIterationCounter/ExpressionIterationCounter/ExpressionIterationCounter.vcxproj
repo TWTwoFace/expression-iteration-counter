@@ -131,6 +131,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operation.cpp" />
+    <ClCompile Include="Validators.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Error.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Operation.h" />
     <ClInclude Include="Operator.h" />
+    <ClInclude Include="Validators.h" />
     <ClInclude Include="ValueType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

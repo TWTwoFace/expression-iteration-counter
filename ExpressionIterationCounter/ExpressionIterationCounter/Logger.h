@@ -2,7 +2,7 @@
 #include <vector>
 #include "Error.h"
 
-class Logger
+class ErrorLogger
 {
 private:
 	std::vector<Error> m_errors;

@@ -8,6 +8,7 @@ enum class ErrorType
 	TreeFileHasUndefinedOperators,
 	TreeFileMissingOperand,
 	TreeFileHasExtraOperands,
+	TreeFileFloatingValueAsIndex,
 	TreeFileFloatingValuesAsIndex,
 	TypeFileHasUndefinedType,
 	TypeFileMissingTypeVariable,

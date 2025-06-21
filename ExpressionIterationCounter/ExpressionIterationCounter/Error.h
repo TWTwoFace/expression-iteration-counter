@@ -11,6 +11,7 @@ private:
 
 public:
 	Error(ErrorType type, std::string description, std::string fileTrace = "");
+	ErrorType GetType();
 	std::string GetMessage();
 };
 

@@ -11,3 +11,8 @@ std::string Error::GetMessage()
 {
 	return std::string();
 }
+
+ErrorType Error::GetType()
+{
+	return m_type;
+}
