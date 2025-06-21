@@ -21,7 +21,7 @@ private:
 
 public:
 	ValueType GetType();
-	bool AddOperand();
+	bool AddOperand(ValueType operandType);
 	int GetIterationsCount();
 };
 

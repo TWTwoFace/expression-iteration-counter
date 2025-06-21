@@ -10,7 +10,7 @@ ValueType Operation::GetType()
     return ValueType::Short;
 }
 
-bool Operation::AddOperand()
+bool Operation::AddOperand(ValueType operandType)
 {
     return false;
 }
