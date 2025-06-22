@@ -47,6 +47,8 @@ constexpr const char* ErrorTypeToString(ErrorType e)
 		return "TypeFileHasInvalidVariableName";
 	case ErrorType::TypeFileMissingVariableName:
 		return "TypeFileMissingVariableName";
+	case ErrorType::OperatorFileInvalidLine:
+		return "OperatorFileInvalidLine";
 	case ErrorType::OperatorFileMissingOperator:
 		return "OperatorFileMissingOperator";
 	case ErrorType::OperatorFileHasUndefinedType:

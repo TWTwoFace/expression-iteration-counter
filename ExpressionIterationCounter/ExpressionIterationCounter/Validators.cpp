@@ -2,6 +2,7 @@
 #include <stack>
 #include <cstring>
 #include <stdexcept>
+#include <cmath>
 
 #pragma warning(disable: 4996)
 
@@ -76,7 +77,6 @@ bool IsValidVariableName(std::string str)
 
 	return true;
 }
-
 
 bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& logger)
 {
@@ -283,5 +283,135 @@ bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<
 
 bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std::set<Operator>& operators, ErrorLogger& logger)
 {
-	return true;
+	bool result = true;
+
+	std::vector<std::string> fileOperators;
+
+	for (std::string line : fileData)
+	{
+		std::vector<std::string> splittedLine = SplitString(line, " ");
+
+		if (splittedLine.size() == 0)
+		{
+			result = false;
+			Error error(ErrorType::OperatorFileInvalidLine, "Строка невалидна (Пустая строка)", "Operator file");
+			logger.LogError(error);
+			
+			continue;
+		}
+
+		if (splittedLine.size() == 1)
+		{
+			result = false;
+
+			if (IsType(splittedLine[0]))
+			{
+				Error typeError(ErrorType::OperatorFileMissingOperatorType, "Отстутствует тип данных для оператора " + splittedLine[0], "Operator file");
+				logger.LogError(typeError);
+
+				Error countError(ErrorType::OperatorFileMissingCount, "Отсутствует количество итераций для оператора " + splittedLine[0], "Operator file");
+				logger.LogError(countError);
+			}
+			else if (IsOperator(splittedLine[0]))
+			{
+				Error operatorError(ErrorType::OperatorFileMissingOperatorType, "Отстутствует оператор для типа данных " + splittedLine[0], "Operator file");
+				logger.LogError(operatorError);
+
+				Error countError(ErrorType::OperatorFileMissingCount, "Отсутствует количество итераций типа данных " + splittedLine[0], "Operator file");
+				logger.LogError(countError);
+			}
+			else
+			{
+				Error error(ErrorType::OperatorFileInvalidLine, "Строка невалидна (" + splittedLine[0] + "...)", "Operator file");
+				logger.LogError(error);
+			}
+
+			continue;
+		}
+
+		if (splittedLine.size() == 2)
+		{
+			result = false;
+
+			if (IsOperator(splittedLine[0]) && IsType(splittedLine[1]))
+			{
+				Error error(ErrorType::OperatorFileMissingCount, "Отсутствует количество итераций в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
+				logger.LogError(error);
+			}
+			else if (IsType(splittedLine[0]))
+			{
+				try
+				{
+					double it = std::stod(splittedLine[1]);
+
+					if (it < 0)
+					{
+						Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + splittedLine[0] + "...)", "Operator file");
+						logger.LogError(error);
+					}
+
+					if (std::floor(it) != it)
+					{
+						Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом(" + splittedLine[0] + "...)", "Operator file");
+						logger.LogError(error);
+					}
+				}
+				catch (std::invalid_argument& ex)
+				{
+					Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом больше нуля (" + splittedLine[0] + "...)", "Operator file");
+					logger.LogError(error);
+				}
+
+				Error error(ErrorType::OperatorFileMissingOperator, "Отстутсвует оператор в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
+				logger.LogError(error);
+			}
+
+			continue;
+		}
+
+		std::string _operator = splittedLine[0];
+		std::string type = splittedLine[1];
+		std::string iterations = splittedLine[2];
+
+		if (!IsOperator(_operator))
+		{
+			result = false;
+			Error error(ErrorType::OperatorFileHasUndefinedOperator, "Передан неподдерживаемый оператор" + _operator, "Operator file");
+			logger.LogError(error);
+		}
+
+		if (!IsType(type))
+		{
+			result = false;
+			Error error(ErrorType::OperatorFileHasUndefinedType, "Передан неподдерживаемый тип данных " + type, "Operator file");
+			logger.LogError(error);
+		}
+
+		try
+		{
+			double it = std::stod(iterations);
+
+			if (it < 0)
+			{
+				result = false;
+				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + _operator + " " + type + "...)", "Operator file");
+				logger.LogError(error);
+			}
+			
+			if (std::floor(it) != it)
+			{
+				result = false;
+				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом(" + _operator + " " + type + "...)", "Operator file");
+				logger.LogError(error);
+			}
+		}
+		catch (std::invalid_argument &ex)
+		{
+			result = false;
+			Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом больше нуля (" + _operator + " " + type + "...)", "Operator file");
+			logger.LogError(error);
+		}
+	}
+
+	return result;
 }

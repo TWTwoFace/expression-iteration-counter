@@ -22,6 +22,7 @@ enum class ErrorType
 	TypeFileTypeOverlapsKeyword,
 	TypeFileHasInvalidVariableName,
 	TypeFileMissingVariableName,
+	OperatorFileInvalidLine,
 	OperatorFileMissingOperator,
 	OperatorFileHasUndefinedType,
 	OperatorFileHasUndefinedOperator,

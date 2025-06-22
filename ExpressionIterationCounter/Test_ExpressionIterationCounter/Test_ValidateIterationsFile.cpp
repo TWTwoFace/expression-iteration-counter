@@ -106,7 +106,7 @@ namespace TestExpressionIterationCounter
 
 		TEST_METHOD(MissingOperator)
 		{
-			std::vector<std::string> fileData = { };
+			std::vector<std::string> fileData = { "int 23" };
 
 			std::set<Operator> operators = { Operator::Add };
 
