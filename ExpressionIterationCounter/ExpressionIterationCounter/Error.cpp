@@ -1,4 +1,5 @@
 #include "Error.h"
+#include <stdexcept>
 
 constexpr const char* ErrorTypeToString(ErrorType e)
 {
@@ -28,8 +29,16 @@ constexpr const char* ErrorTypeToString(ErrorType e)
 		return "TypeFileHasUndefinedType";
 	case ErrorType::TypeFileMissingTypeVariable:
 		return "TypeFileMissingTypeVariable";
+	case ErrorType::TypeFileInvalidLine:
+		return "TypeFileInvalidLine";
 	case ErrorType::TypeFileTypeOverlapsConstant:
 		return "TypeFileTypeOverlapsConstant";
+	case ErrorType::TypeFileVariableNameRepeats:
+		return "TypeFileVariableNameRepeats";
+	case ErrorType::TypeFileVariableNameOverlapsConstant:
+		return "TypeFileVariableNameOverlapsConstant";
+	case ErrorType::TypeFileVariableNameOverlapsKeyword:
+		return "TypeFileVariableNameOverlapsKeyword";
 	case ErrorType::TypeFileHasExtraVariable:
 		return "TypeFileHasExtraVariable";
 	case ErrorType::TypeFileTypeOverlapsKeyword:
@@ -53,7 +62,7 @@ constexpr const char* ErrorTypeToString(ErrorType e)
 	case ErrorType::OperatorFileMissingValueType:
 		return "OperatorFileMissingValueType";
 	default:
-		return "";
+		throw new std::invalid_argument("Unexpected TypeError element");
 	}
 }
 

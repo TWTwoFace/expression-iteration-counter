@@ -3,17 +3,17 @@ enum class ValueType
 {
 	None,
 	Bool,
+	Char,
 	Short,
 	Int,
 	Long,
 	Float,
 	Double,
-	Char,
+	BoolArray,
+	CharArray,
 	ShortArray,
 	IntArray,
 	LongArray,
 	FloatArray,
-	DoubleArray,
-	BoolArray,
-	CharArray
+	DoubleArray
 };
