@@ -68,6 +68,8 @@ int main(int argc, char* argv[])
 	std::set<Operator> operators;
 
 	Operation* head = NULL;
+
+	std::map<std::string, ValueType> variablesTypesCorrepondes;
 	if (isTreeFileRead && ValidateTreeFile(treeFileData, logger))
 	{
 		std::vector<std::string> tokens = SplitString(treeFileData[0], " ");
@@ -139,6 +141,20 @@ int main(int argc, char* argv[])
 			}
 		}
 		head = operationsStack.top();
+	}
+
+	if (isTypeFileRead && ValidateTypesFile(typesFileData, variables, logger))
+	{
+		for (std::string line : typesFileData)
+		{
+			std::vector<std::string> tokens = SplitString(line, " ");
+
+			std::string variable = tokens[1];
+			ValueType type = GetValueTypeByToken(tokens[0]);
+
+			variablesTypesCorrepondes[variable] = type;
+		}
+	}
 	}
 	return 0;
 }
