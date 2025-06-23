@@ -46,7 +46,19 @@ int main(int argc, char* argv[])
 	// Output full filepath
 	const std::string OutputFilePath = OutputDirectoryPath + SLASH + argv[1] + ".out.txt";
 
+	ErrorLogger logger;
 
+	std::string treeFilePath = argv[1];
+	std::string typesFilePath = argv[2];
+	std::string iterationsFilePath = argv[3];
+
+	std::vector<std::string> treeFileData;
+	std::vector<std::string> typesFileData;
+	std::vector<std::string> iterationsFileData;
+
+	bool isTreeFileRead = ReadFile(treeFilePath, treeFileData, logger);
+	bool isTypeFileRead = ReadFile(typesFilePath, typesFileData, logger);
+	bool isIterationsFileRead = ReadFile(iterationsFilePath, iterationsFileData, logger);
 
 	return 0;
 }
