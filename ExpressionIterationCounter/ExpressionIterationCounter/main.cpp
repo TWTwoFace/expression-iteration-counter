@@ -34,9 +34,9 @@ int main(int argc, char* argv[])
 {
 	if (argc != 4)
 	{
-		std::cout << "Invalid input arguments count. It should be 3." << std::endl;
-		std::cout << "Example: ExpressionIterationCounter.exe tree.txt types.txt operators.txt" << std::endl;
-		return 0;
+		std::cerr << "Invalid input arguments count. It should be 3." << std::endl;
+		std::cerr << "Example: ExpressionIterationCounter.exe tree.txt types.txt operators.txt" << std::endl;
+		return 1;
 	}
 
 	// Creating base folder for program's output files 
