@@ -1,5 +1,12 @@
 #include <iostream>
 #include <filesystem>
+#include <fstream>
+#include <stack>
+#include "Logger.h"
+#include "ValueType.h"
+#include "Validators.h"
+#include "Operation.h"
+#include "Utils.h"
 
 #pragma warning(disable: 4996)
 
@@ -13,7 +20,7 @@ bool ReadFile(const std::string path, std::vector<std::string> &fileData, ErrorL
 
 	if (!file.is_open())
 	{
-		Error error(ErrorType::FileDoesNotExists, "РќРµ СѓРґР°РµС‚СЃСЏ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»");
+		Error error(ErrorType::FileDoesNotExists, "Не удается открыть файл");
 		logger.LogError(error);
 		return false;
 	}
@@ -70,6 +77,8 @@ int main(int argc, char* argv[])
 	Operation* head = NULL;
 
 	std::map<std::string, ValueType> variablesTypesCorrepondes;
+	std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
+
 	if (isTreeFileRead && ValidateTreeFile(treeFileData, logger))
 	{
 		std::vector<std::string> tokens = SplitString(treeFileData[0], " ");
@@ -170,7 +179,33 @@ int main(int argc, char* argv[])
 			iterationCorrespondes[_operator][type] = count;
 		}
 	}
+
+	std::ofstream file(OutputFilePath);
+
+	if (!file.is_open())
+	{
+		Error error(ErrorType::FileCouldNotBeCreated, "Невозможно открыть/создать файл по пути Documents\\\'" + std::string(PROGRAM_NAME) + "\'");
+		std::cerr << error.GetMessage() << std::endl;
 	}
+
+	if (logger.IsEmpty())
+	{
+		std::set<Operation*> passedNodes;
+		int iterationsCount = head->GetIterationsCount(passedNodes, iterationCorrespondes, variablesTypesCorrepondes);
+
+		file << iterationsCount;
 	}
+	else
+	{
+		std::vector<Error> *errors = logger.GetErrors();
+
+		for (Error error : *errors)
+		{
+			file << error.GetMessage() << '\n';
+		}
+	}
+
+	file.close();
+
 	return 0;
 }
