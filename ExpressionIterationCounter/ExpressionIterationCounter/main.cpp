@@ -64,5 +64,81 @@ int main(int argc, char* argv[])
 	bool isTypeFileRead = ReadFile(typesFilePath, typesFileData, logger);
 	bool isIterationsFileRead = ReadFile(iterationsFilePath, iterationsFileData, logger);
 
+	std::set<std::string> variables;
+	std::set<Operator> operators;
+
+	Operation* head = NULL;
+	if (isTreeFileRead && ValidateTreeFile(treeFileData, logger))
+	{
+		std::vector<std::string> tokens = SplitString(treeFileData[0], " ");
+		
+		std::stack<std::pair<ValueType, std::string>> operandsStack;
+		std::stack<Operation*> operationsStack;
+
+		for (std::string token : tokens)
+		{
+			if (IsOperator(token))
+			{
+				Operator _operator = GetOperatorByToken(token);
+				Operation* operation = new Operation(_operator);
+
+				operators.insert(_operator);
+
+				if (IsUnaryOperator(_operator))
+				{
+					if (operandsStack.size() >= 1)
+					{
+						operation->AddOperand(operandsStack.top().first, operandsStack.top().second);
+						operation->AddOperand(operandsStack.top().first, operandsStack.top().second);
+						operandsStack.pop();
+					}
+					else
+					{
+						operation->rightChild = operationsStack.top();
+						operation->leftChild = operationsStack.top();
+						operationsStack.pop();
+					}
+				}
+				else
+				{
+					if (operandsStack.size() >= 2)
+					{
+						operation->AddOperand(operandsStack.top().first, operandsStack.top().second);
+						operandsStack.pop();
+						operation->AddOperand(operandsStack.top().first, operandsStack.top().second);
+						operandsStack.pop();
+					}
+					else if (operandsStack.size() == 1)
+					{
+						operation->AddOperand(operandsStack.top().first, operandsStack.top().second);
+						operandsStack.pop();
+						operation->rightChild = operationsStack.top();
+						operationsStack.pop();
+					}
+					else
+					{
+						operation->rightChild = operationsStack.top();
+						operationsStack.pop();
+						operation->leftChild = operationsStack.top();
+						operationsStack.pop();
+					}
+				}
+				operationsStack.push(operation);
+			}
+			else
+			{
+				ValueType type = GetValueTypeByValue(token);
+
+				if (type == ValueType::None)
+					variables.insert(token);
+
+				std::pair<ValueType, std::string> pair;
+				pair.first = type;
+				pair.second = token;
+				operandsStack.push(pair);
+			}
+		}
+		head = operationsStack.top();
+	}
 	return 0;
 }
