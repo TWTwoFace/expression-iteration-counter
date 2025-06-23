@@ -66,6 +66,15 @@ bool IsValidVariableName(std::string str)
 	if (isdigit(str[0]))
 		return false;
 
+	int beginIndex = 0;
+	int endIndex = str.size();
+
+	if (str[0] == '\'' && str[str.size() - 1] == '\'' && str.size() == 3)
+	{
+		beginIndex = 1;
+		endIndex = str.size() - 1;
+	}
+
 	for (int i = 0; i < str.size(); i++)
 	{
 		if ((str[i] < 65 || str[i] > 122) && !isdigit(str[i]) && str[i] != '_')
@@ -121,4 +130,41 @@ Operator GetOperatorByToken(std::string token)
 		return Operator::TakingByIndex;
 	
 	throw new std::invalid_argument("Unexpected operator token");
+}
+
+ValueType GetValueTypeByToken(std::string token)
+{
+	if (token == "true" || token == "false")
+		return ValueType::Bool;
+
+	if (token[0] == '\'')
+		return ValueType::Char;
+
+	try
+	{
+		long long s_l = std::stoll(token);
+
+		if (s_l <= SHRT_MAX && s_l >= SHRT_MIN)
+			return ValueType::Short;
+		if (s_l <= INT_MAX && s_l >= INT_MIN)
+			return ValueType::Int;
+		
+		return ValueType::Long;
+	}
+	catch (std::invalid_argument& ex)
+	{
+		try 
+		{
+			long double s_d = std::stold(token);
+
+			if (s_d <= FLT_MAX && s_d >= FLT_MIN)
+				return ValueType::Float;
+
+			return ValueType::Double;
+		}
+		catch (std::invalid_argument& ex)
+		{
+			return ValueType::None;
+		}
+	}
 }

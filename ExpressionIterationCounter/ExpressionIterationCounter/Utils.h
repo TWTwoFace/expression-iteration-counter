@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Operator.h"
+#include "ValueType.h"
 
 std::vector<std::string> SplitString(std::string str, const char* delimeter);
 
@@ -16,3 +17,5 @@ bool IsKeyword(std::string str);
 bool IsValidVariableName(std::string str);
 
 Operator GetOperatorByToken(std::string token);
+
+ValueType GetValueTypeByToken(std::string token);
