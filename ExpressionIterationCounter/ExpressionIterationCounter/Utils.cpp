@@ -173,3 +173,37 @@ bool IsUnaryOperator(Operator _operator)
 {
 	return _operator == Operator::Inversion || _operator == Operator::Not;
 }
+
+ValueType GetValueTypeByToken(std::string token)
+{
+	if (token == "char")
+		return ValueType::Char;
+	else if (token == "short")
+		return ValueType::Short;
+	else if (token == "int")
+		return ValueType::Int;
+	else if (token == "long")
+		return ValueType::Long;
+	else if (token == "float")
+		return ValueType::Float;
+	else if (token == "double")
+		return ValueType::Double;
+	else if (token == "bool[]")
+		return ValueType::BoolArray;
+	else if (token == "char[]")
+		return ValueType::CharArray;
+	else if (token == "short[]")
+		return ValueType::ShortArray;
+	else if (token == "int[]")
+		return ValueType::ShortArray;
+	else if (token == "long[]")
+		return ValueType::LongArray;
+	else if (token == "float[]")
+		return ValueType::FloatArray;
+	else if (token == "double[]")
+		return ValueType::DoubleArray;
+	else if (token == "bool")
+		return ValueType::Bool;
+
+	throw new std::invalid_argument("Unexpected ValueType token");
+}
