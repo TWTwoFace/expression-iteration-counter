@@ -12,7 +12,6 @@ enum class Operator
 	LessOrEquals,
 	Equals,
 	Unequals,
-	If,
 	Not,
 	And,
 	Or,
@@ -23,5 +22,4 @@ enum class Operator
 	BitwiseLeftShift,
 	BitwiseRightShift,
 	TakingByIndex,
-	Ternary
 };

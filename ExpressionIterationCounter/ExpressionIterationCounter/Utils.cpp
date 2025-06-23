@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <stdexcept>
 
 #pragma warning(disable: 4996)
 
@@ -72,4 +73,52 @@ bool IsValidVariableName(std::string str)
 	}
 
 	return true;
+}
+
+Operator GetOperatorByToken(std::string token)
+{
+	if (token == "+")
+		return Operator::Add;
+	else if (token == "-")
+		return Operator::Substract;
+	else if (token == "*")
+		return Operator::Multiply;
+	else if (token == "/")
+		return Operator::Divide;
+	else if (token == "%")
+		return Operator::Modulo;
+	else if (token == ">")
+		return Operator::More;
+	else if (token == "<")
+		return Operator::Less;
+	else if (token == ">=")
+		return Operator::MoreOrEquals;
+	else if (token == "<=")
+		return Operator::LessOrEquals;
+	else if (token == "==")
+		return Operator::Equals;
+	else if (token == "!=")
+		return Operator::Unequals;
+	else if (token == "!")
+		return Operator::Not;
+	else if (token == "&&")
+		return Operator::And;
+	else if (token == "||")
+		return Operator::Or;
+	else if (token == "&")
+		return Operator::BitwiseAnd;
+	else if (token == "|")
+		return Operator::BitwiseOr;
+	else if (token == "^")
+		return Operator::BitwiseXor;
+	else if (token == "~")
+		return Operator::Inversion;
+	else if (token == "<<")
+		return Operator::BitwiseLeftShift;
+	else if (token == ">>")
+		return Operator::BitwiseRightShift;
+	else if (token == "[]")
+		return Operator::TakingByIndex;
+	
+	throw new std::invalid_argument("Unexpected operator token");
 }
