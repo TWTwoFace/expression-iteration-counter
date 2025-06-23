@@ -140,20 +140,28 @@ ValueType GetValueTypeByValue(std::string token)
 	if (token[0] == '\'')
 		return ValueType::Char;
 
-	try
-	{
-		long long s_l = std::stoll(token);
 
-		if (s_l <= SHRT_MAX && s_l >= SHRT_MIN)
-			return ValueType::Short;
-		if (s_l <= INT_MAX && s_l >= INT_MIN)
-			return ValueType::Int;
-		
-		return ValueType::Long;
-	}
-	catch (std::invalid_argument& ex)
+	if (token.find('.') == std::string::npos)
 	{
-		try 
+		try
+		{
+			long long s_l = std::stoll(token);
+
+			if (s_l <= SHRT_MAX && s_l >= SHRT_MIN)
+				return ValueType::Short;
+			if (s_l <= INT_MAX && s_l >= INT_MIN)
+				return ValueType::Int;
+
+			return ValueType::Long;
+		}
+		catch (std::invalid_argument& ex)
+		{
+			return ValueType::None;
+		}
+	}
+	else
+	{
+		try
 		{
 			long double s_d = std::stold(token);
 
