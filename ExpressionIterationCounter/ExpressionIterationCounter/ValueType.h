@@ -2,7 +2,6 @@
 enum class ValueType
 {
 	None,
-	Bool,
 	Char,
 	Short,
 	Int,
@@ -15,5 +14,6 @@ enum class ValueType
 	IntArray,
 	LongArray,
 	FloatArray,
-	DoubleArray
+	DoubleArray,
+	Bool
 };
