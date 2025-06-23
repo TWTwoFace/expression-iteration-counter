@@ -32,6 +32,8 @@ bool ReadFile(const std::string path, std::vector<std::string> &fileData, ErrorL
 
 int main(int argc, char* argv[])
 {
+	setlocale(LC_ALL, "Russian");
+
 	if (argc != 4)
 	{
 		std::cerr << "Invalid input arguments count. It should be 3." << std::endl;
@@ -44,7 +46,7 @@ int main(int argc, char* argv[])
 	std::filesystem::create_directory(OutputDirectoryPath);
 
 	// Output full filepath
-	const std::string OutputFilePath = OutputDirectoryPath + SLASH + argv[1] + ".out.txt";
+	const std::string OutputFilePath = OutputDirectoryPath + SLASH + SplitString(argv[1], "\\")[0] + ".out.txt";
 
 	ErrorLogger logger;
 
