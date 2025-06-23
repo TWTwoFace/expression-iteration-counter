@@ -155,6 +155,22 @@ int main(int argc, char* argv[])
 			variablesTypesCorrepondes[variable] = type;
 		}
 	}
+
+	if (isIterationsFileRead && ValidateIterationsFile(iterationsFileData, operators, logger))
+	{
+		for (std::string line : iterationsFileData)
+		{
+			std::vector<std::string> tokens = SplitString(line, " ");
+
+			Operator _operator = GetOperatorByToken(tokens[0]);
+			ValueType type = GetValueTypeByToken(tokens[1]);
+
+			int count = std::stoi(tokens[2]);
+
+			iterationCorrespondes[_operator][type] = count;
+		}
+	}
+	}
 	}
 	return 0;
 }
