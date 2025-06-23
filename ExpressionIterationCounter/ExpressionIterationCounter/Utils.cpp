@@ -132,7 +132,7 @@ Operator GetOperatorByToken(std::string token)
 	throw new std::invalid_argument("Unexpected operator token");
 }
 
-ValueType GetValueTypeByToken(std::string token)
+ValueType GetValueTypeByValue(std::string token)
 {
 	if (token == "true" || token == "false")
 		return ValueType::Bool;

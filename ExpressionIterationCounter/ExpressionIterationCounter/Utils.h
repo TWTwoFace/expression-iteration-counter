@@ -18,6 +18,6 @@ bool IsValidVariableName(std::string str);
 
 Operator GetOperatorByToken(std::string token);
 
-ValueType GetValueTypeByToken(std::string token);
+ValueType GetValueTypeByValue(std::string token);
 
 bool IsUnaryOperator(Operator _operator);
