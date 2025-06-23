@@ -1,9 +1,8 @@
 #include "Operation.h"
 
-Operation::Operation(Operator operatorType, std::map<Operator, std::map<ValueType, int>> *iterationCorrespondes)
+Operation::Operation(Operator operatorType)
 {
     expOperator = operatorType;
-    iterationsByOperatorCorrespondes = iterationCorrespondes;
     operandTypes;
 }
 
@@ -30,7 +29,7 @@ bool Operation::AddOperand(ValueType operandType)
     return true;
 }
 
-int Operation::GetIterationsCount(std::set<Operation*> &passedNodes)
+int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes)
 {
     passedNodes.insert(this);
 
@@ -38,19 +37,19 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes)
 
     if (leftChild != NULL && passedNodes.find(leftChild) == passedNodes.end())
     {
-        iterations += leftChild->GetIterationsCount(passedNodes);
+        iterations += leftChild->GetIterationsCount(passedNodes, iterationCorrespondes);
         AddOperand(leftChild->GetType());
     }
 
     if (rightChild != NULL && passedNodes.find(rightChild) == passedNodes.end())
     {
-        iterations += rightChild->GetIterationsCount(passedNodes);
+        iterations += rightChild->GetIterationsCount(passedNodes, iterationCorrespondes);
         AddOperand(rightChild->GetType());
     }
 
     ValueType nodeType = GetType();
 
-    int nodeIterations = (*iterationsByOperatorCorrespondes)[expOperator][nodeType];
+    int nodeIterations = iterationCorrespondes[expOperator][nodeType];
 
     iterations += nodeIterations;
 

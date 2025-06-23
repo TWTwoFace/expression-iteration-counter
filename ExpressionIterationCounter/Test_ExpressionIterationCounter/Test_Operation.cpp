@@ -19,11 +19,11 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Add][ValueType::Int] = 10;
 
-			Operation head(Operator::Add, &iterationCorrespondes);
+			Operation head(Operator::Add);
 			head.AddOperand(ValueType::Int);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(10, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(10, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(VariableSameTypes)
@@ -32,11 +32,11 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Add][ValueType::Int] = 20;
 
-			Operation head(Operator::Add, &iterationCorrespondes);
+			Operation head(Operator::Add);
 			head.AddOperand(ValueType::Int);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(20, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(20, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(VariableDifferentTypes)
@@ -45,11 +45,11 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Add][ValueType::Float] = 22;
 
-			Operation head(Operator::Add, &iterationCorrespondes);
+			Operation head(Operator::Add);
 			head.AddOperand(ValueType::Float);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(22, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(22, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(OneOperandIsOperation)
@@ -61,15 +61,15 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Multiply] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Multiply][ValueType::Int] = 25;
 
-			Operation leftChild(Operator::Multiply, &iterationCorrespondes);
+			Operation leftChild(Operator::Multiply);
 			leftChild.AddOperand(ValueType::Int);
 			leftChild.AddOperand(ValueType::Int);
 
-			Operation head(Operator::Add, &iterationCorrespondes);
+			Operation head(Operator::Add);
 			head.AddOperand(ValueType::Int);
 			head.leftChild = &leftChild;
 
-			Assert::AreEqual(35, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(35, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(BothOperandsAreOperations)
@@ -84,19 +84,19 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Substract] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Substract][ValueType::Int] = 12;
 
-			Operation leftChild(Operator::Multiply, &iterationCorrespondes);
+			Operation leftChild(Operator::Multiply);
 			leftChild.AddOperand(ValueType::Int);
 			leftChild.AddOperand(ValueType::Int);
 
-			Operation rightChild(Operator::Substract, &iterationCorrespondes);
+			Operation rightChild(Operator::Substract);
 			rightChild.AddOperand(ValueType::Int);
 			rightChild.AddOperand(ValueType::Int);
 
-			Operation head(Operator::Add, &iterationCorrespondes);
+			Operation head(Operator::Add);
 			head.leftChild = &leftChild;
 			head.rightChild = &rightChild;
 
-			Assert::AreEqual(42, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(42, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(UnaryOperator)
@@ -105,11 +105,11 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Inversion] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Inversion][ValueType::Int] = 40;
 
-			Operation head(Operator::Inversion, &iterationCorrespondes);
+			Operation head(Operator::Inversion);
 			head.AddOperand(ValueType::Int);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(40, head.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(40, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 
 		TEST_METHOD(ComplexTest)
@@ -128,27 +128,27 @@ namespace TestExpressionIterationCounter
 			iterationCorrespondes[Operator::Substract] = std::map<ValueType, int>();
 			iterationCorrespondes[Operator::Substract][ValueType::Float] = 30;
 
-			Operation notOperation(Operator::Not, &iterationCorrespondes);
+			Operation notOperation(Operator::Not);
 			notOperation.AddOperand(ValueType::Int);
 			notOperation.AddOperand(ValueType::Int);
 
-			Operation addOperation(Operator::Add, &iterationCorrespondes);
+			Operation addOperation(Operator::Add);
 			addOperation.AddOperand(ValueType::Int);
 			addOperation.rightChild = &notOperation;
 
-			Operation multiplyOperation(Operator::Multiply, &iterationCorrespondes);
+			Operation multiplyOperation(Operator::Multiply);
 			multiplyOperation.AddOperand(ValueType::Float);
 			multiplyOperation.AddOperand(ValueType::Int);
 
-			Operation substructOperation(Operator::Substract, &iterationCorrespondes);
+			Operation substructOperation(Operator::Substract);
 			substructOperation.AddOperand(ValueType::Float);
 			substructOperation.rightChild = &addOperation;
 
-			Operation headOperation(Operator::Add, &iterationCorrespondes);
+			Operation headOperation(Operator::Add);
 			headOperation.leftChild = &multiplyOperation;
 			headOperation.rightChild = &substructOperation;
 
-			Assert::AreEqual(105, headOperation.GetIterationsCount(std::set<Operation*>()));
+			Assert::AreEqual(105, headOperation.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes));
 		}
 	};
 }

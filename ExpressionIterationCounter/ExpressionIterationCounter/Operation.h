@@ -13,7 +13,6 @@ public:
 
 private:
 	std::vector<ValueType> operandTypes;
-	std::map<Operator, std::map<ValueType, int>>* iterationsByOperatorCorrespondes;
 	Operator expOperator;
 	ValueType type = ValueType::None;
 
@@ -21,9 +20,9 @@ private:
 	ValueType FetchTypes();
 
 public:
-	Operation(Operator operatorType, std::map<Operator, std::map<ValueType, int>>* iterationCorrespondes);
+	Operation(Operator operatorType);
 	ValueType GetType();
 	bool AddOperand(ValueType operandType);
-	int GetIterationsCount(std::set<Operation*> &passedNodes);
+	int GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes);
 };
 

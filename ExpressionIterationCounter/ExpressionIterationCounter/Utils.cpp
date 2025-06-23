@@ -1,5 +1,7 @@
 #include "Utils.h"
 
+#pragma warning(disable: 4996)
+
 std::vector<std::string> SplitString(std::string str, const char* delimeter)
 {
 	std::vector<std::string> result;
