@@ -168,3 +168,8 @@ ValueType GetValueTypeByToken(std::string token)
 		}
 	}
 }
+
+bool IsUnaryOperator(Operator _operator)
+{
+	return _operator == Operator::Inversion || _operator == Operator::Not;
+}
