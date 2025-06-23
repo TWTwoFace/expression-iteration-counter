@@ -45,8 +45,10 @@ int main(int argc, char* argv[])
 	const std::string OutputDirectoryPath = std::getenv("HOMEDRIVE") + std::string(std::getenv("HOMEPATH")) + SLASH + "Documents" + SLASH + PROGRAM_NAME;
 	std::filesystem::create_directory(OutputDirectoryPath);
 
+	std::vector<std::string> fileName = SplitString(argv[1], "\\");
+
 	// Output full filepath
-	const std::string OutputFilePath = OutputDirectoryPath + SLASH + SplitString(argv[1], "\\")[0] + ".out.txt";
+	const std::string OutputFilePath = OutputDirectoryPath + SLASH + fileName[fileName.size() - 1] + ".out.txt";
 
 	ErrorLogger logger;
 
