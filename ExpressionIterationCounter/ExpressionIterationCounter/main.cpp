@@ -43,8 +43,7 @@ bool ReadFile(const std::string path, std::vector<std::string> &fileData, ErrorL
 
 int main(int argc, char* argv[])
 {
-	// Установить русский язык для консоли
-	setlocale(LC_ALL, "Russian");
+	system("chcp 65001 > nul");
 
 	// Если переданных аргументов не 4, вывести ошибку в консоль и вернуть код ошибки 1
 	if (argc != 4)

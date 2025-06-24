@@ -350,7 +350,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 			// Создадим и запишем в логгер ошибку о невалидности строки
 			Error error(ErrorType::OperatorFileInvalidLine, "Строка невалидна (Пустая строка)", "Operator file");
 			logger.LogError(error);
-			
+
 			// Перейдем на следующую строку
 			continue;
 		}
@@ -413,8 +413,9 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 				// Попробуем преобразовать второй токен в число
 				try
 				{
-					double it = std::stod(splittedLine[1]);
-					std::stoi(splittedLine[1]);
+					float it = std::stof(splittedLine[1]);
+					int intIt = std::stoi(splittedLine[1]);
+
 					// Если число меньше нуля
 					if (it < 0)
 					{
@@ -424,7 +425,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 					}
 
 					// Если число не целое
-					if (std::floor(it) != it)
+					if (intIt != it)
 					{
 						// Создадим и запишем в логгер ошибку о невалидности числа итераций 
 						Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом(" + splittedLine[0] + "...)", "Operator file");
@@ -437,6 +438,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 					Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом больше нуля (" + splittedLine[0] + "...)", "Operator file");
 					logger.LogError(error);
 				}
+
 				// Создадим и запишем в логгер ошибку о нехватке оператора 
 				Error error(ErrorType::OperatorFileMissingOperator, "Отстутсвует оператор в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
 				logger.LogError(error);
@@ -486,20 +488,20 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 		// Попробуем количество итераций преобразовать в число
 		try
 		{
-			double it = std::stod(iterations);
-			std::stoi(iterations);
+			float it = std::stof(iterations);
+			int intIt = std::stoi(iterations);
 			// Если число меньше 0
 			if (it < 0)
 			{
 				// Считаем, что результат - false
 				result = false;
 				// Создадим и запишем ошибку о невалидности числа операций
-				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + _operator + " " + type + iterations + ")", "Operator file");
+				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + _operator + " " + type + "...)", "Operator file");
 				logger.LogError(error);
 			}
-			
+
 			// Если число не целое
-			if (std::floor(it) != it)
+			if (intIt != it)
 			{
 				// Считаем, что результат - false
 				result = false;
@@ -509,7 +511,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 			}
 		}
 		// При неудаче
-		catch (std::exception &ex)
+		catch (std::exception& ex)
 		{
 			// Считаем, что результат - false
 			result = false;
