@@ -41,7 +41,7 @@ namespace TestExpressionIterationCounter
 
 		TEST_METHOD(TypeOverlapsConstant)
 		{
-			std::vector<std::string> fileData = { "int true" };
+			std::vector<std::string> fileData = { "true a" };
 
 			std::set<std::string> variables = { };
 
@@ -67,7 +67,7 @@ namespace TestExpressionIterationCounter
 
 		TEST_METHOD(TypeOverlapsKeyword)
 		{
-			std::vector<std::string> fileData = { "int float" };
+			std::vector<std::string> fileData = { "for a" };
 
 			std::set<std::string> variables = { };
 
@@ -119,7 +119,7 @@ namespace TestExpressionIterationCounter
 
 		TEST_METHOD(ComplexTest)
 		{
-			std::vector<std::string> fileData = { "int float", "int true", "int" };
+			std::vector<std::string> fileData = { "for a", "true w", "int" };
 
 			std::set<std::string> variables = { };
 

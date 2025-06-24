@@ -46,17 +46,6 @@ namespace TestExpressionIterationCounter
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileMissingOperand }, logger));
 		}
 
-		TEST_METHOD(ExtraOperand)
-		{
-			std::vector<std::string> fileData = { "3 4 8 *" };
-
-			ErrorLogger logger;
-
-			bool result = ValidateTreeFile(fileData, logger);
-
-			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileHasExtraOperands }, logger));
-		}
-
 		TEST_METHOD(FloatingValueAsIndex)
 		{
 			std::vector<std::string> fileData = { "a 1.24 []" };

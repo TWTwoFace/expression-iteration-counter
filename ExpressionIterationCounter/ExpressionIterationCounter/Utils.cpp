@@ -70,7 +70,7 @@ bool IsKeyword(std::string str)
 	};
 
 	// Вернем true, если str является типом или оператором или находится в векторе
-	return IsType(str) || IsOperator(str) || std::find(keywords.begin(), keywords.end(), str) != keywords.end();
+	return IsOperator(str) || std::find(keywords.begin(), keywords.end(), str) != keywords.end();
 }
 
 bool IsValidVariableName(std::string str)

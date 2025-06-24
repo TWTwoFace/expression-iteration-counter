@@ -39,8 +39,17 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 	for (auto token = splittedLine.begin(); token != splittedLine.end(); token++)
 	{
 		// Если токен - оператор
-		if (IsOperator(*token))
+		if (IsOperator(*token) || IsKeyword(*token))
 		{
+			// Если токен - ключевое слово, но не оператор
+			if (IsKeyword(*token) && !IsOperator(*token))
+			{
+				// Считаем что результат - false
+				result = false;
+				// Создадим и запишем в логгер ошибку о неподдерживаевом операторе
+				Error error(ErrorType::TreeFileHasUndefinedOperators, "Неподдерживаемый оператор " + *token, "Tree file");
+				logger.LogError(error);
+			}
 			// Если токен - "!" или "~" (Унарный) 
 			if (*token == "!" || *token == "~")
 			{
@@ -220,23 +229,41 @@ bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<
 			logger.LogError(error);
 		}
 
+		if (IsConstant(type))
+		{
+			// Считаем, что результат - false
+			result = false;
+			// Создадим и запишем в логгер ошибку о констанстном имени переменной
+			Error error(ErrorType::TypeFileTypeOverlapsConstant, "Тип данных является зарезервированным именем (константой)", "Types file");
+			logger.LogError(error);
+		}
+
 		// Если имя переменной - константа
 		if (IsConstant(variable))
 		{
 			// Считаем, что результат - false
 			result = false;
-			// Создадим и запишем в логгер ошибку о констанстном имени переменной
+			// Создадим и запишем в логгер ошибку о констанстном типе данных
 			Error error(ErrorType::TypeFileVariableNameOverlapsConstant, "Имя переменной является зарезервированным именем (константой)", "Types file");
 			logger.LogError(error);
 		}
 
 		// Если имя переменной - ключевое слово
-		if (IsKeyword(variable))
+		if (IsKeyword(variable) || IsType(variable))
 		{
 			// Считаем, что результат - false
 			result = false;
 			// Создадим и запишем в логгер ошибку о зарезервированном имени переменной
 			Error error(ErrorType::TypeFileVariableNameOverlapsKeyword, "Имя переменной является зарезервированным именем (ключевое слово)", "Types file");
+			logger.LogError(error);
+		}
+
+		if (IsKeyword(type))
+		{
+			// Считаем, что результат - false
+			result = false;
+			// Создадим и запишем в логгер ошибку о зарезервированном типе данных
+			Error error(ErrorType::TypeFileTypeOverlapsKeyword, "Тип данных является зарезервированным именем (ключевое слово)", "Types file");
 			logger.LogError(error);
 		}
 
@@ -283,7 +310,7 @@ bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<
 			// Считаем, что результат - false
 			result = false;
 			// Создадим и запишем в логгер ошибку о нехватке переменной с именем
-			Error error(ErrorType::TypeFileMissingVariableName, "Не передан тип данных для переменной " + variable, "Types file");
+			Error error(ErrorType::TypeFileMissingTypeVariable, "Не передан тип данных для переменной " + variable, "Types file");
 			logger.LogError(error);
 		}
 	}
@@ -404,6 +431,12 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 
 				// Создадим и запишем в логгер ошибку о нехватке оператора 
 				Error error(ErrorType::OperatorFileMissingOperator, "Отстутсвует оператор в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
+				logger.LogError(error);
+			}
+			else if (IsOperator(splittedLine[0]) && !IsType(splittedLine[0]))
+			{
+				// Создадим и запишем в логгер ошибку о нехватке типа данных 
+				Error error(ErrorType::OperatorFileMissingValueType, "Отстутсвует тип данных в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
 				logger.LogError(error);
 			}
 			// Иначе, создадим и запишем в логгер ошибку о невалидности строки
