@@ -2,6 +2,7 @@
 //! Перечисление, содержащее перечень всех возможных типов данных
 enum class ValueType
 {
+	Invalid,
 	None,
 	Char,
 	Short,

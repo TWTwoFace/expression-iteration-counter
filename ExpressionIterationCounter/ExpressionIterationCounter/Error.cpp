@@ -24,7 +24,9 @@ constexpr const char* ErrorTypeToString(ErrorType e)
 		return "TreeFileMissingOperand";
 	case ErrorType::TreeFileHasExtraOperands:
 		return "TreeFileHasExtraOperands";
-	case ErrorType::TreeFileFloatingValueAsIndex:
+	case ErrorType::TreeFileInvalidValue:
+		return "TreeFileInvalidValue";
+	case ErrorType::TreeFileInvalidValueAsIndex:
 		return "TreeFileFloatingValuesAsIndex";
 	case ErrorType::TypeFileHasUndefinedType:
 		return "TypeFileHasUndefinedType";

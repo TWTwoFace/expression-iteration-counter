@@ -107,12 +107,12 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 
 						}
 						// При неудаче
-						catch(std::invalid_argument const& ex) 
+						catch(std::exception const& ex) 
 						{
 							// Считаем что результат - false
 							result = false;
 							// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
-							Error error(ErrorType::TreeFileFloatingValueAsIndex, "Некорректное число как индекс", "Tree file");
+							Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
 							logger.LogError(error);
 						}
 					}
@@ -126,6 +126,15 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 		// Иначе перед нами операнд
 		else
 		{
+			// Если тип данных операнда невалиден
+			if (GetValueTypeByValue(*token) == ValueType::Invalid)
+			{
+				// Считаем что результат - false
+				result = false;
+				// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
+				Error error(ErrorType::TreeFileInvalidValue, "Передано слишком большое число " + *token, "Tree file");
+				logger.LogError(error);
+			}
 			// Добавим к количеству операндов единицу
 			operandCount++;
 			// Добавим операнд в стек
@@ -405,7 +414,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 				try
 				{
 					double it = std::stod(splittedLine[1]);
-
+					std::stoi(splittedLine[1]);
 					// Если число меньше нуля
 					if (it < 0)
 					{
@@ -423,12 +432,11 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 					}
 				}
 				// При неудаче cоздадим и запишем в логгер ошибку о невалидности числа итераций 
-				catch (std::invalid_argument& ex)
+				catch (std::exception& ex)
 				{
 					Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом больше нуля (" + splittedLine[0] + "...)", "Operator file");
 					logger.LogError(error);
 				}
-
 				// Создадим и запишем в логгер ошибку о нехватке оператора 
 				Error error(ErrorType::OperatorFileMissingOperator, "Отстутсвует оператор в строке (" + splittedLine[0] + " " + splittedLine[1] + "...)", "Operator file");
 				logger.LogError(error);
@@ -479,14 +487,14 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 		try
 		{
 			double it = std::stod(iterations);
-
+			std::stoi(iterations);
 			// Если число меньше 0
 			if (it < 0)
 			{
 				// Считаем, что результат - false
 				result = false;
 				// Создадим и запишем ошибку о невалидности числа операций
-				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + _operator + " " + type + "...)", "Operator file");
+				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть > 0 (" + _operator + " " + type + iterations + ")", "Operator file");
 				logger.LogError(error);
 			}
 			
@@ -501,7 +509,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 			}
 		}
 		// При неудаче
-		catch (std::invalid_argument &ex)
+		catch (std::exception &ex)
 		{
 			// Считаем, что результат - false
 			result = false;

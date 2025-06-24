@@ -54,7 +54,7 @@ namespace TestExpressionIterationCounter
 
 			bool result = ValidateTreeFile(fileData, logger);
 
-			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileFloatingValueAsIndex }, logger));
+			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileInvalidValueAsIndex }, logger));
 		}
 
 		TEST_METHOD(CorrectValues)
@@ -76,7 +76,7 @@ namespace TestExpressionIterationCounter
 
 			bool result = ValidateTreeFile(fileData, logger);
 
-			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileFloatingValueAsIndex, ErrorType::TreeFileHasUndefinedOperators }, logger));
+			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TreeFileInvalidValueAsIndex, ErrorType::TreeFileHasUndefinedOperators }, logger));
 		}
 	};
 }

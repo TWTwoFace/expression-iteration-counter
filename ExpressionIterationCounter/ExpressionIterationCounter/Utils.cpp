@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include <stdexcept>
+#include <iostream>
 
 #pragma warning(disable: 4996)
 
@@ -187,6 +188,10 @@ ValueType GetValueTypeByValue(std::string token)
 			// Иначе, вернем Long
 			return ValueType::Long;
 		}
+		catch (std::out_of_range& ex)
+		{
+			return ValueType::Invalid;
+		}
 		// При неудаче вернем None
 		catch (std::invalid_argument& ex)
 		{
@@ -206,6 +211,10 @@ ValueType GetValueTypeByValue(std::string token)
 
 			// Иначе, вернем Double
 			return ValueType::Double;
+		}
+		catch (std::out_of_range& ex)
+		{
+			return ValueType::Invalid;
 		}
 		// При неудаче вернем None
 		catch (std::invalid_argument& ex)
