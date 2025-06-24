@@ -1,4 +1,5 @@
 #pragma once
+//! Перечисление, содержащее перечень всех возможных ошибок
 enum class ErrorType
 {
 	FileIsEmpty,
