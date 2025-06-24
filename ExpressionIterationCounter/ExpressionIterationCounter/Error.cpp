@@ -3,6 +3,7 @@
 
 constexpr const char* ErrorTypeToString(ErrorType e)
 {
+	// Вернем соответствующую строку для каждой ошибки 
 	switch (e)
 	{
 	case ErrorType::FileIsEmpty:
@@ -77,15 +78,20 @@ Error::Error(ErrorType type, std::string description, std::string fileTrace)
 
 std::string Error::GetMessage()
 {
+	// Получим сообщение как конкатенацию строк (тип ошибки: описание ошибки)
 	std::string message = ErrorTypeToString(m_type) + std::string(": ") + m_description;
 
+	// Если трейс ошибки определен не пустой строкой
 	if (m_fileTrace != "")
+		// Прибавим к строке трейс ошибки (... | трей ошибки)
 		message += std::string(" | ") + m_fileTrace;
 
+	// Вернем сообщение ошибки
 	return message;
 }
 
 ErrorType Error::GetType()
 {
+	// Вернем тип ошибки
 	return m_type;
 }
