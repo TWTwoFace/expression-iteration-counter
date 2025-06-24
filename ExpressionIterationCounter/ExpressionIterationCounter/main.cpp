@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 					else
 					{
 						operation->rightChild = operationsStack.top();
-						operation->leftChild = operationsStack.top();
+						operation->AddOperand(ValueType::None);
 						operationsStack.pop();
 					}
 				}

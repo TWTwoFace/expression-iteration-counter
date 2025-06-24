@@ -266,15 +266,22 @@ ValueType GetValueTypeByToken(std::string token)
 	throw new std::invalid_argument("Unexpected ValueType token");
 }
 
+bool IsLogicalOperator(Operator _operator)
+{
+	return _operator == Operator::More || _operator == Operator::Less || _operator == Operator::MoreOrEquals
+		|| _operator == Operator::LessOrEquals || _operator == Operator::Equals || _operator == Operator::Unequals
+		|| _operator == Operator::Not || _operator == Operator::And || _operator == Operator::Or;
+}
+
 std::string GetValueTypeString(ValueType type)
 {
 	// Определим вектор, хранящий типы в виде строк
 	std::vector<std::string> types =
 	{
-		"none", "char", "short", "int", "long",
+		"invalid", "none", "bool", "char", "short", "int", "long",
 		"float", "double", "bool[]", "char[]",
 		"short[]", "int[]", "long[]", "float[]",
-		"double[]", "bool"
+		"double[]"
 	};
 	
 	// Определим строку по аргументу типа

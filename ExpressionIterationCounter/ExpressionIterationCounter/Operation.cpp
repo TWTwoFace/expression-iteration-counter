@@ -8,8 +8,8 @@ Operation::Operation(Operator operatorType)
 
 ValueType Operation::FetchTypes()
 {
-    // ≈сли количество операндов не 2, вернем тип данных None
-    if (operandTypes.size() != 2)
+    // ≈сли количество операндов не 2 и бинарный оператор, вернем тип данных None
+    if (operandTypes.size() != 2 && !IsUnaryOperator(expOperator))
         return ValueType::None;
 
     // ѕройдем по каждому операнду
@@ -29,8 +29,6 @@ ValueType Operation::FetchTypes()
 
 ValueType Operation::GetType()
 {
-    // ѕриведем тип
-    type = FetchTypes();
     // ¬ернем полученный тип
     return type;
 }
@@ -78,11 +76,23 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Op
         AddOperand(rightChild->GetType());
     }
 
-    // ќпределим тип текушей операции
-    ValueType nodeType = GetType();
+    // ќпределим тип данных, над которыми происходит операци€
+    ValueType operationType = FetchTypes();
 
     // ѕолучим количество итераций дл€ текущей операции из соответстви€ количества итераций и операторов по типу текущей операции
-    int nodeIterations = iterationCorrespondes[expOperator][nodeType];
+    int nodeIterations = iterationCorrespondes[expOperator][operationType];
+
+    // ≈сли оператор логический
+    if (IsLogicalOperator(expOperator))
+    {
+        // ќбозначим, что тип данных операции - bool
+        type = ValueType::Bool;
+    }
+    // »наче, тип данных тот же, над которым происходит операци€
+    else
+    {
+        type = operationType;
+    }
 
     // ≈сли полученное количество итераций не определено (<= 0)
     if (nodeIterations <= 0)

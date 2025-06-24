@@ -4,6 +4,7 @@ enum class ValueType
 {
 	Invalid,
 	None,
+	Bool,
 	Char,
 	Short,
 	Int,
@@ -17,5 +18,4 @@ enum class ValueType
 	LongArray,
 	FloatArray,
 	DoubleArray,
-	Bool
 };

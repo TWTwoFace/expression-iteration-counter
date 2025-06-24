@@ -65,6 +65,12 @@ bool IsUnaryOperator(Operator _operator);
 */
 ValueType GetValueTypeByToken(std::string token);
 
+/*! Функция, для определения является ли оператор логическим
+	\param[in] _operator - оператор
+	\return true - если логический оператор, false - в ином случае
+*/
+bool IsLogicalOperator(Operator _operator);
+
 /*! Функция, возвращающая строчное представление для ValueType
 	\param[in] type - элемент ValueType
 	\return соответствущую строку для элемента ValueType
