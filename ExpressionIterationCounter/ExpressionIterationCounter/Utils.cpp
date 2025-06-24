@@ -5,19 +5,27 @@
 
 std::vector<std::string> SplitString(std::string str, const char* delimeter)
 {
+	// Определим результирующий вектор
 	std::vector<std::string> result;
+
+	// Получим токен получив первый элемент отделенный от строки разделителем
 	char* token = std::strtok((char*)str.c_str(), delimeter);
 
-	while (token != nullptr) {
+	// Пока токен не равен nullptr
+	while (token != nullptr) 
+	{
+		// Добавим токен в конец строки
 		result.emplace_back(token);
 		token = std::strtok(nullptr, delimeter);
 	}
 
+	// Вернем результирующий вектор
 	return result;
 }
 
 bool IsOperator(std::string token)
 {
+	// Определим вектор, хранящий операторы в виде строки
 	std::vector<std::string> operators =
 	{
 		"+", "-", "*", "/",
@@ -28,16 +36,19 @@ bool IsOperator(std::string token)
 		"[]",
 	};
 
+	// Если токен находится в векторе, вернем true, иначе false
 	return std::find(operators.begin(), operators.end(), token) != operators.end();
 }
 
 bool IsConstant(std::string str)
 {
+	// Вернем true, если str равен "true" или "false"
 	return str == "true" || str == "false";
 }
 
 bool IsType(std::string str)
 {
+	// Определим вектор, хранящий типы в виде строк
 	std::vector<std::string> types =
 	{
 		"bool", "short", "int", "long",
@@ -45,47 +56,62 @@ bool IsType(std::string str)
 		"short[]", "int[]", "long[]", "float[]",
 		"double[]", "bool[]"
 	};
+
+	// Вернем true, если str находится в векторе types, иначе false
 	return std::find(types.begin(), types.end(), str) != types.end();
 }
 
 bool IsKeyword(std::string str)
 {
+	// Определим вектор, хранящий ключевые слова в виде строк
 	std::vector<std::string> keywords =
 	{
 		"do", "while", "for", "if", "else", "void", "return"
 	};
 
+	// Вернем true, если str является типом или оператором или находится в векторе
 	return IsType(str) || IsOperator(str) || std::find(keywords.begin(), keywords.end(), str) != keywords.end();
 }
 
 bool IsValidVariableName(std::string str)
 {
+	// Если размер строки 0, вернем false
 	if (str.size() == 0)
 		return false;
 
+	// Если первый символ строки число, вернем false
 	if (isdigit(str[0]))
 		return false;
 
+	// Определим начальный индекс для проверки как 0
 	int beginIndex = 0;
+	// Определим конечный индекс для проверки как размер строки
 	int endIndex = str.size();
 
+	// Если строка начинается и заканчивается с ' и размер строки равен трём
 	if (str[0] == '\'' && str[str.size() - 1] == '\'' && str.size() == 3)
 	{
+		// Определим начальный индекс для проверки как 1
 		beginIndex = 1;
+		// Определим конечный индекс проверки как размер строки - 1
 		endIndex = str.size() - 1;
 	}
 
+	// Пройдем по каждому символу строки
 	for (int i = 0; i < str.size(); i++)
 	{
+		// Если символ - не латинская буква в верхнем или нижнем регистре и не _, вернем false
 		if ((str[i] < 65 || str[i] > 122) && !isdigit(str[i]) && str[i] != '_')
 			return false;
 	}
 
+	// Вернем истину
 	return true;
 }
 
 Operator GetOperatorByToken(std::string token)
 {
+	// Вернем соответствующий элемент enum по токену
 	if (token == "+")
 		return Operator::Add;
 	else if (token == "-")
@@ -129,31 +155,39 @@ Operator GetOperatorByToken(std::string token)
 	else if (token == "[]")
 		return Operator::TakingByIndex;
 	
+	// Если ничего до этого не вернулось, выкенем исключение
 	throw new std::invalid_argument("Unexpected operator token");
 }
 
 ValueType GetValueTypeByValue(std::string token)
 {
-	if (token == "true" || token == "false")
+	// Если токен константа, вернем тип данных Bool
+	if (IsConstant(token))
 		return ValueType::Bool;
 
+	// Если первый символ токена ', вернем Char
 	if (token[0] == '\'')
 		return ValueType::Char;
 
-
+	// Если в токене нет символа '.'
 	if (token.find('.') == std::string::npos)
 	{
+		// Попробуем преобразовать токен в long long переменную
 		try
 		{
 			long long s_l = std::stoll(token);
 
+			// Если полученное число находится в пределах short, вернем Short
 			if (s_l <= SHRT_MAX && s_l >= SHRT_MIN)
 				return ValueType::Short;
+			// Если полученное число находится в пределах int, вернем Int
 			if (s_l <= INT_MAX && s_l >= INT_MIN)
 				return ValueType::Int;
 
+			// Иначе, вернем Long
 			return ValueType::Long;
 		}
+		// При неудаче вернем None
 		catch (std::invalid_argument& ex)
 		{
 			return ValueType::None;
@@ -161,15 +195,19 @@ ValueType GetValueTypeByValue(std::string token)
 	}
 	else
 	{
+		// Попробуем преобразовать токен в long double
 		try
 		{
 			long double s_d = std::stold(token);
 
+			// Если полученное число находится в пределах float, вернем Float
 			if (s_d <= FLT_MAX && s_d >= FLT_MIN)
 				return ValueType::Float;
 
+			// Иначе, вернем Double
 			return ValueType::Double;
 		}
+		// При неудаче вернем None
 		catch (std::invalid_argument& ex)
 		{
 			return ValueType::None;
@@ -179,11 +217,13 @@ ValueType GetValueTypeByValue(std::string token)
 
 bool IsUnaryOperator(Operator _operator)
 {
+	// Если оператор это оператор инверсии или отрицания, вернем true, иначе false
 	return _operator == Operator::Inversion || _operator == Operator::Not;
 }
 
 ValueType GetValueTypeByToken(std::string token)
 {
+	// Вернем соответствующий элемент enum по токену
 	if (token == "char")
 		return ValueType::Char;
 	else if (token == "short")
@@ -213,11 +253,13 @@ ValueType GetValueTypeByToken(std::string token)
 	else if (token == "bool")
 		return ValueType::Bool;
 
+	// Иначе, выкенем исключение
 	throw new std::invalid_argument("Unexpected ValueType token");
 }
 
 std::string GetValueTypeString(ValueType type)
 {
+	// Определим вектор, хранящий типы в виде строк
 	std::vector<std::string> types =
 	{
 		"none", "char", "short", "int", "long",
@@ -225,14 +267,17 @@ std::string GetValueTypeString(ValueType type)
 		"short[]", "int[]", "long[]", "float[]",
 		"double[]", "bool"
 	};
-
+	
+	// Определим строку по аргументу типа
 	std::string stringType = types[(int)type];
-
+	
+	// Вернем строку
 	return stringType;
 }
 
 std::string GetOperatorString(Operator _operator)
 {
+	// Определим вектор, хранящий типы данных в виде строк
 	std::vector<std::string> operators =
 	{
 		"+", "-", "*", "/",
@@ -243,7 +288,9 @@ std::string GetOperatorString(Operator _operator)
 		"[]",
 	};
 
+	// Определим строку по аргументу оператора
 	std::string stringOperator = operators[(int)_operator];
 
+	// Вернем строку
 	return stringOperator;
 }
