@@ -39,7 +39,7 @@ bool Operation::AddOperand(ValueType operandType, std::string variableName)
     return true;
 }
 
-int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes, std::map<std::string, ValueType>& variableCorrespondes)
+int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes, std::map<std::string, ValueType>& variableCorrespondes, ErrorLogger &logger)
 {
     passedNodes.insert(this);
     m_variableCorrespondes = &variableCorrespondes;
@@ -48,19 +48,25 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Op
 
     if (leftChild != NULL && passedNodes.find(leftChild) == passedNodes.end())
     {
-        iterations += leftChild->GetIterationsCount(passedNodes, iterationCorrespondes, variableCorrespondes);
+        iterations += leftChild->GetIterationsCount(passedNodes, iterationCorrespondes, variableCorrespondes, logger);
         AddOperand(leftChild->GetType());
     }
 
     if (rightChild != NULL && passedNodes.find(rightChild) == passedNodes.end())
     {
-        iterations += rightChild->GetIterationsCount(passedNodes, iterationCorrespondes, variableCorrespondes);
+        iterations += rightChild->GetIterationsCount(passedNodes, iterationCorrespondes, variableCorrespondes, logger);
         AddOperand(rightChild->GetType());
     }
 
     ValueType nodeType = GetType();
 
     int nodeIterations = iterationCorrespondes[expOperator][nodeType];
+
+    if (nodeIterations <= 0)
+    {
+        Error error(ErrorType::OperatorFileMissingCount, "Отсутствует определение количества итераций для операции '" + GetOperatorString(expOperator) + "' типа '" + GetValueTypeString(GetType()) + "'", "Operator file");
+        logger.LogError(error);
+    }
 
     iterations += nodeIterations;
 

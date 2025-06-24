@@ -23,3 +23,7 @@ ValueType GetValueTypeByValue(std::string token);
 bool IsUnaryOperator(Operator _operator);
 
 ValueType GetValueTypeByToken(std::string token);
+
+std::string GetValueTypeString(ValueType type);
+
+std::string GetOperatorString(Operator _operator);

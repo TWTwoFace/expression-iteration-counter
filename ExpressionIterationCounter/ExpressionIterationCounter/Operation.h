@@ -5,6 +5,7 @@
 #include <string>
 #include "Operator.h"
 #include "ValueType.h"
+#include "Logger.h"
 
 class Operation
 {
@@ -26,6 +27,6 @@ public:
 	Operation(Operator operatorType);
 	ValueType GetType();
 	bool AddOperand(ValueType operandType, std::string variableName = "");
-	int GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes, std::map<std::string, ValueType> &variableCorrespondes);
+	int GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Operator, std::map<ValueType, int>> &iterationCorrespondes, std::map<std::string, ValueType> &variableCorrespondes, ErrorLogger &logger);
 };
 

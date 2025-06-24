@@ -188,14 +188,20 @@ int main(int argc, char* argv[])
 		std::cerr << error.GetMessage() << std::endl;
 	}
 
-	if (logger.IsEmpty())
+	bool result = logger.IsEmpty();
+
+	if (result)
 	{
 		std::set<Operation*> passedNodes;
-		int iterationsCount = head->GetIterationsCount(passedNodes, iterationCorrespondes, variablesTypesCorrepondes);
+		int iterationsCount = head->GetIterationsCount(passedNodes, iterationCorrespondes, variablesTypesCorrepondes, logger);
 
-		file << iterationsCount;
+		if (!logger.IsEmpty())
+			result = false;
+		else
+			file << iterationsCount;
 	}
-	else
+	
+	if (!result)
 	{
 		std::vector<Error> *errors = logger.GetErrors();
 

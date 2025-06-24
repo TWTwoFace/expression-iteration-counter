@@ -15,6 +15,8 @@ namespace TestExpressionIterationCounter
 		
 		TEST_METHOD(SimpleTest)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
@@ -24,11 +26,13 @@ namespace TestExpressionIterationCounter
 			head.AddOperand(ValueType::Int);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(10, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(10, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(VariableSameTypes)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 
@@ -41,11 +45,13 @@ namespace TestExpressionIterationCounter
 			head.AddOperand(ValueType::None, "a");
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(20, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(20, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(VariableDifferentTypes)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 
@@ -58,11 +64,13 @@ namespace TestExpressionIterationCounter
 			head.AddOperand(ValueType::None, "a");
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(22, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(22, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(OneOperandIsOperation)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
@@ -79,11 +87,13 @@ namespace TestExpressionIterationCounter
 			head.AddOperand(ValueType::Int);
 			head.leftChild = &leftChild;
 
-			Assert::AreEqual(35, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(35, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(BothOperandsAreOperations)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
@@ -107,11 +117,13 @@ namespace TestExpressionIterationCounter
 			head.leftChild = &leftChild;
 			head.rightChild = &rightChild;
 
-			Assert::AreEqual(42, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(42, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(UnaryOperator)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 			iterationCorrespondes[Operator::Inversion] = std::map<ValueType, int>();
@@ -121,11 +133,13 @@ namespace TestExpressionIterationCounter
 			head.AddOperand(ValueType::Int);
 			head.AddOperand(ValueType::Int);
 
-			Assert::AreEqual(40, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(40, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(ComplexTest)
 		{
+			ErrorLogger logger;
+
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
 			iterationCorrespondes[Operator::Multiply] = std::map<ValueType, int>();
@@ -161,7 +175,7 @@ namespace TestExpressionIterationCounter
 			headOperation.leftChild = &multiplyOperation;
 			headOperation.rightChild = &substructOperation;
 
-			Assert::AreEqual(105, headOperation.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes));
+			Assert::AreEqual(105, headOperation.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 	};
 }

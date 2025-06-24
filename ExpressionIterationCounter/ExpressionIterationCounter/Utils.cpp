@@ -43,7 +43,7 @@ bool IsType(std::string str)
 		"bool", "short", "int", "long",
 		"float", "double", "char", "char[]",
 		"short[]", "int[]", "long[]", "float[]",
-		"double[]"
+		"double[]", "bool[]"
 	};
 	return std::find(types.begin(), types.end(), str) != types.end();
 }
@@ -214,4 +214,36 @@ ValueType GetValueTypeByToken(std::string token)
 		return ValueType::Bool;
 
 	throw new std::invalid_argument("Unexpected ValueType token");
+}
+
+std::string GetValueTypeString(ValueType type)
+{
+	std::vector<std::string> types =
+	{
+		"none", "char", "short", "int", "long",
+		"float", "double", "bool[]", "char[]",
+		"short[]", "int[]", "long[]", "float[]",
+		"double[]", "bool"
+	};
+
+	std::string stringType = types[(int)type];
+
+	return stringType;
+}
+
+std::string GetOperatorString(Operator _operator)
+{
+	std::vector<std::string> operators =
+	{
+		"+", "-", "*", "/",
+		"%", ">", "<", ">=",
+		"<=", "==", "!=", "!",
+		"&&", "||", "&", "|",
+		"^", "~", "<<", ">>",
+		"[]",
+	};
+
+	std::string stringOperator = operators[(int)_operator];
+
+	return stringOperator;
 }
