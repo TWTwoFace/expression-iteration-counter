@@ -49,8 +49,8 @@ int main(int argc, char* argv[])
 	// Если переданных аргументов не 4, вывести ошибку в консоль и вернуть код ошибки 1
 	if (argc != 4)
 	{
-		std::cerr << "Невалидное количество аргументов. Их дожно быть 3." << std::endl;
-		std::cerr << "Пример: ExpressionIterationCounter.exe tree.txt types.txt operators.txt" << std::endl;
+		std::cout << "Невалидное количество аргументов. Их дожно быть 3." << std::endl;
+		std::cout << "Пример: ExpressionIterationCounter.exe tree.txt types.txt operators.txt" << std::endl;
 		return 1;
 	}
 
@@ -254,7 +254,10 @@ int main(int argc, char* argv[])
 			result = false;
 		// Иначе запишем в выходной файл ответ
 		else
+		{
 			file << iterationsCount;
+			std::cout << "Программа успешно завершена" << std::endl;
+		}
 	}
 	
 	// Если результат - ложь
@@ -268,6 +271,8 @@ int main(int argc, char* argv[])
 		{
 			file << error.GetMessage() << '\n';
 		}
+
+		std::cout << "Программа завершена с ошибками" << std::endl;
 	}
 
 	// Закроем стрим выходного файла
