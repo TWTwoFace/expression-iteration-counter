@@ -24,6 +24,6 @@ public:
 	/*! Получить сообщение ошибки
 		\return - строка, содержащая преобразованный текст ошибки для вывода
 	*/
-	std::string GetMessage();
+	std::string GetMessage() const;
 };
 
