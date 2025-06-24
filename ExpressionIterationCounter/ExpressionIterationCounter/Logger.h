@@ -22,6 +22,6 @@ public:
 	/*! Пустой ли ErrorLogger
 		\return true - если ошибок нет, false - в ином случае
 	*/
-	bool IsEmpty();
+	bool IsEmpty() const;
 };
 

@@ -12,7 +12,7 @@ std::vector<Error>* ErrorLogger::GetErrors()
 	return &m_errors;
 }
 
-bool ErrorLogger::IsEmpty()
+bool ErrorLogger::IsEmpty() const
 {
 	// Вернем true, если размер вектора с ошибка равен нулю, иначе false
 	return m_errors.size() == 0;

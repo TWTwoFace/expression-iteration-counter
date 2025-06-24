@@ -76,7 +76,7 @@ Error::Error(ErrorType type, std::string description, std::string fileTrace)
 	m_fileTrace = fileTrace;
 }
 
-std::string Error::GetMessage()
+std::string Error::GetMessage() const
 {
 	// Получим сообщение как конкатенацию строк (тип ошибки: описание ошибки)
 	std::string message = ErrorTypeToString(m_type) + std::string(": ") + m_description;
@@ -90,7 +90,7 @@ std::string Error::GetMessage()
 	return message;
 }
 
-ErrorType Error::GetType()
+ErrorType Error::GetType() const
 {
 	// Вернем тип ошибки
 	return m_type;
