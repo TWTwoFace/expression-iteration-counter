@@ -46,28 +46,21 @@ int main(int argc, char* argv[])
 	system("chcp 65001 > nul");
 
 	// Если переданных аргументов не 4, вывести ошибку в консоль и вернуть код ошибки 1
-	if (argc != 4)
+	if (argc != 5)
 	{
-		std::cout << "Невалидное количество аргументов. Их дожно быть 3." << std::endl;
-		std::cout << "Пример: ExpressionIterationCounter.exe tree.txt types.txt operators.txt" << std::endl;
+		std::cout << "Невалидное количество аргументов. Их дожно быть 4." << std::endl;
+		std::cout << "Пример: ExpressionIterationCounter.exe tree.txt types.txt operators.txt output.txt" << std::endl;
 		return 1;
 	}
-
-	// Создание директории для выходных файлов
-	const std::string OutputDirectoryPath = std::getenv("HOMEDRIVE") + std::string(std::getenv("HOMEPATH")) + SLASH + "Documents" + SLASH + PROGRAM_NAME;
-	std::filesystem::create_directory(OutputDirectoryPath);
-
-	// Определение полного пути для выходного файла
-	std::vector<std::string> fileName = SplitString(argv[1], "\\");
-	const std::string OutputFilePath = OutputDirectoryPath + SLASH + fileName[fileName.size() - 1] + ".out.txt";
 
 	// Инициализация логгера
 	ErrorLogger logger;
 
 	// Определение строк, хранящих пути до входных файлов
-	std::string treeFilePath = argv[1];
-	std::string typesFilePath = argv[2];
-	std::string iterationsFilePath = argv[3];
+	const std::string TreeFilePath = argv[1];
+	const std::string TypesFilePath = argv[2];
+	const std::string IterationsFilePath = argv[3];
+	const std::string OutputFilePath = argv[4];
 
 	// Определение векторов строк, хранящих содержимое входных файлов
 	std::vector<std::string> treeFileData;
@@ -75,9 +68,9 @@ int main(int argc, char* argv[])
 	std::vector<std::string> iterationsFileData;
 
 	// Чтение входных файлов и проверка, прочитался ли
-	bool isTreeFileRead = ReadFile(treeFilePath, treeFileData, logger);
-	bool isTypeFileRead = ReadFile(typesFilePath, typesFileData, logger);
-	bool isIterationsFileRead = ReadFile(iterationsFilePath, iterationsFileData, logger);
+	bool isTreeFileRead = ReadFile(TreeFilePath, treeFileData, logger);
+	bool isTypeFileRead = ReadFile(TypesFilePath, typesFileData, logger);
+	bool isIterationsFileRead = ReadFile(IterationsFilePath, iterationsFileData, logger);
 
 	// Определение вспомогательных множеств, храянящих имена переменных и операторы
 	std::set<std::string> variables;
