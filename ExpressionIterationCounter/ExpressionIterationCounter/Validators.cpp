@@ -142,6 +142,16 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 		}
 	}
 
+	// Если количество операндов больше максимума
+	if (binaryCount + unaryCount > 50)
+	{
+		// Считаем, что результат - false
+		result = false;
+		// Создадим и запишем в логгер ошибку о большом количестве операторов
+		Error error(ErrorType::TreeFileHasExtraLines, "Слишком большое количество операторов, максимум 50", "Tree file");
+		logger.LogError(error);
+	}
+
 	// Если количество операторов больше единицы
 	if (operands.size() > 1)
 	{
@@ -431,6 +441,17 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 						Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом(" + splittedLine[0] + "...)", "Operator file");
 						logger.LogError(error);
 					}
+
+					// Если число больше максимального
+					if (it > 32768)
+					{
+						// Считаем, что результат - false
+						result = false;
+
+						// Создадим и запишем ошибку о невалидности числа операций
+						Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций больше максимального значения, максимум 32768", "Operator file");
+						logger.LogError(error);
+					}
 				}
 				// При неудаче cоздадим и запишем в логгер ошибку о невалидности числа итераций 
 				catch (std::exception& ex)
@@ -507,6 +528,17 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 				result = false;
 				// Создадим и запишем ошибку о невалидности числа операций
 				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций должно быть целым числом (" + _operator + " " + type + "...)", "Operator file");
+				logger.LogError(error);
+			}
+
+			// Если число больше максимального
+			if (it > 32768)
+			{
+				// Считаем, что результат - false
+				result = false;
+
+				// Создадим и запишем ошибку о невалидности числа операций
+				Error error(ErrorType::OperatorFileHasInvalidCount, "Количество итераций больше максимального значения, максимум 32768", "Operator file");
 				logger.LogError(error);
 			}
 		}
