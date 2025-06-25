@@ -143,12 +143,12 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 	}
 
 	// Если количество операндов больше максимума
-	if (binaryCount + unaryCount > 50)
+	if (binaryCount + unaryCount > 100000)
 	{
 		// Считаем, что результат - false
 		result = false;
 		// Создадим и запишем в логгер ошибку о большом количестве операторов
-		Error error(ErrorType::TreeFileHasExtraLines, "Слишком большое количество операторов, максимум 50", "Tree file");
+		Error error(ErrorType::TreeFileHasExtraLines, "Слишком большое количество операторов, максимум 100000", "Tree file");
 		logger.LogError(error);
 	}
 
