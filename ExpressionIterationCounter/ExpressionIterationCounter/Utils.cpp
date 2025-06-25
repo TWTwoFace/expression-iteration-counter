@@ -26,19 +26,10 @@ std::vector<std::string> SplitString(std::string str, const char* delimeter)
 
 bool IsOperator(std::string token)
 {
-	// ќпределим вектор, хран€щий операторы в виде строки
-	std::vector<std::string> operators =
-	{
-		"+", "-", "*", "/",
-		"%", ">", "<", ">=",
-		"<=", "==", "!=", "!",
-		"&&", "||", "&", "|",
-		"^", "~", "<<", ">>",
-		"[]",
-	};
-
-	// ≈сли токен находитс€ в векторе, вернем true, иначе false
-	return std::find(operators.begin(), operators.end(), token) != operators.end();
+	//// ≈сли токен €вл€етс€ оператором, вернем true, иначе false
+	return token == "+" || token == "-" || token == "*" || token == "/" || token == "%" || token == ">" || token == "<" || token == ">="
+		|| token == "<=" || token == "==" || token == "!=" || token == "!" || token == "&&" || token == "||" || token == "&" || token == "|"
+		|| token == "^" || token == "~" || token == "<<" || token == ">>" || token == "[]";
 }
 
 bool IsConstant(std::string str)
