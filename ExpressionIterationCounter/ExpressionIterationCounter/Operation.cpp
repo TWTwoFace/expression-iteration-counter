@@ -82,6 +82,14 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Op
     // Получим количество итераций для текущей операции из соответствия количества итераций и операторов по типу текущей операции
     int nodeIterations = iterationCorrespondes[expOperator][operationType];
 
+    // Если полученное количество итераций не определено (<= 0)
+    if (nodeIterations <= 0)
+    {
+        // Запишем в логгер ошибку о недостаточном определении соотвтетствий операторов для текущего оператора и типа
+        Error error(ErrorType::OperatorFileMissingCount, "Отсутствует определение количества итераций для операции '" + GetOperatorString(expOperator) + "' типа '" + GetValueTypeString(operationType) + "'", "Operator file");
+        logger.LogError(error);
+    }
+
     // Если оператор логический
     if (IsLogicalOperator(expOperator))
     {
@@ -92,14 +100,6 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Op
     else
     {
         type = operationType;
-    }
-
-    // Если полученное количество итераций не определено (<= 0)
-    if (nodeIterations <= 0)
-    {
-        // Запишем в логгер ошибку о недостаточном определении соотвтетствий операторов для текущего оператора и типа
-        Error error(ErrorType::OperatorFileMissingCount, "Отсутствует определение количества итераций для операции '" + GetOperatorString(expOperator) + "' типа '" + GetValueTypeString(GetType()) + "'", "Operator file");
-        logger.LogError(error);
     }
 
     // Прибавим к общему количеству итераций количество итераций для текущей операции
