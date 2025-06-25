@@ -83,8 +83,14 @@ int main(int argc, char* argv[])
 	std::map<std::string, ValueType> variablesTypesCorrepondes;
 	std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 
+	// Проверка файла дерева на валидность
+	bool isTreeFileValid = false;
+	
+	if (isTreeFileRead)
+		isTreeFileValid = ValidateTreeFile(treeFileData, logger);
+
 	// Заполнение дерева операций из входных данных, если файл был прочитан и валиден
-	if (isTreeFileRead && ValidateTreeFile(treeFileData, logger))
+	if (isTreeFileRead && isTreeFileValid)
 	{
 		// Разбиваем строку на токены через пробел
 		std::vector<std::string> tokens = SplitString(treeFileData[0], " ");
@@ -179,7 +185,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Заполнение данных о переменных и их типах, если файл был прочитан и он валиден
-	if (isTypeFileRead && ValidateTypesFile(typesFileData, variables, logger))
+	if (isTypeFileRead && ValidateTypesFile(typesFileData, variables, isTreeFileValid, logger))
 	{
 		// Пройдем по каждой строке входных данных
 		for (std::string line : typesFileData)

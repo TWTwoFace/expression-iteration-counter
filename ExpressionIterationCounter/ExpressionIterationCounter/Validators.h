@@ -16,7 +16,7 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 	\param[in] variables - вектор имен переменных, содержащихся в дереве
 	\param[in,out] logger - логгер, для хранения возможных ошибок
 */
-bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, ErrorLogger& logger);
+bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, bool IsTreeFileValid, ErrorLogger& logger);
 
 /*! Функция, валидирующая данные из файла операторов
 	\param[in] fileData - вектор строк из файла

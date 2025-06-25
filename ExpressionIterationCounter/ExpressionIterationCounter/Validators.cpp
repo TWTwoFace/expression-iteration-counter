@@ -166,7 +166,7 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 	return result;
 }
 
-bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, ErrorLogger& logger)
+bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, bool IsTreeFileValid, ErrorLogger& logger)
 {
 	// Считаем что результат проверки - true
 	bool result = true;
@@ -286,8 +286,8 @@ bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<
 			logger.LogError(error);
 		}
 
-		// Если имени переменной нет в переданном векторе существующих переменных в дереве разбора выражения
-		if (std::find(variables.begin(), variables.end(), variable) == variables.end())
+		// Если имени переменной нет в переданном векторе существующих переменных в дереве разбора выражения и файл дерева валиден
+		if (std::find(variables.begin(), variables.end(), variable) == variables.end() && IsTreeFileValid)
 		{
 			// Считаем, что результат - false
 			result = false;
@@ -471,7 +471,7 @@ bool ValidateIterationsFile(const std::vector<std::string>& fileData, const std:
 			// Считаем, что результат - false
 			result = false;
 			// Создадим и запишем в логгер ошибку о неподдерживаемом операторе
-			Error error(ErrorType::OperatorFileHasUndefinedOperator, "Передан неподдерживаемый оператор" + _operator, "Operator file");
+			Error error(ErrorType::OperatorFileHasUndefinedOperator, "Передан неподдерживаемый оператор " + _operator, "Operator file");
 			logger.LogError(error);
 		}
 
