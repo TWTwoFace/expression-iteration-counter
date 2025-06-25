@@ -40,29 +40,18 @@ bool IsConstant(std::string str)
 
 bool IsType(std::string str)
 {
-	// Определим вектор, хранящий типы в виде строк
-	std::vector<std::string> types =
-	{
-		"bool", "short", "int", "long",
-		"float", "double", "char", "char[]",
-		"short[]", "int[]", "long[]", "float[]",
-		"double[]", "bool[]"
-	};
-
-	// Вернем true, если str находится в векторе types, иначе false
-	return std::find(types.begin(), types.end(), str) != types.end();
+    // Если строка является типом, вернем true, иначе false
+    return str == "bool" || str == "short" || str == "int" || str == "long" 
+        || str == "float" || str == "double" || str == "char" || str == "char[]" 
+        || str == "short[]" || str == "int[]" || str == "long[]" || str == "float[]" 
+        || str == "double[]" || str == "bool[]";
 }
 
 bool IsKeyword(std::string str)
 {
-	// Определим вектор, хранящий ключевые слова в виде строк
-	std::vector<std::string> keywords =
-	{
-		"do", "while", "for", "if", "else", "void", "return"
-	};
-
-	// Вернем true, если str является типом или оператором или находится в векторе
-	return IsOperator(str) || std::find(keywords.begin(), keywords.end(), str) != keywords.end();
+	// Если строка является ключевым словом, вернем true, иначе false
+	return str == "do" || str == "while" || str == "for" || str == "if"
+		|| str == "else" || str == "void" || str == "return";
 }
 
 bool IsValidVariableName(std::string str)
