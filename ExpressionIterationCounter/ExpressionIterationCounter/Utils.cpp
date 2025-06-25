@@ -49,9 +49,9 @@ bool IsType(std::string str)
 
 bool IsKeyword(std::string str)
 {
-	// Если строка является ключевым словом, вернем true, иначе false
-	return str == "do" || str == "while" || str == "for" || str == "if"
-		|| str == "else" || str == "void" || str == "return";
+    // Если строка является ключевым словом, вернем true, иначе false
+    return str == "do" || str == "while" || str == "for" || str == "if" 
+        || str == "else" || str == "void" || str == "return" || IsOperator(str);
 }
 
 bool IsValidVariableName(std::string str)
