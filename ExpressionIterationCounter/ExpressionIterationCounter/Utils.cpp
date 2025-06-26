@@ -232,7 +232,7 @@ ValueType GetValueTypeByToken(std::string token)
 	else if (token == "short[]")
 		return ValueType::ShortArray;
 	else if (token == "int[]")
-		return ValueType::ShortArray;
+		return ValueType::IntArray;
 	else if (token == "long[]")
 		return ValueType::LongArray;
 	else if (token == "float[]")
@@ -289,4 +289,33 @@ std::string GetOperatorString(Operator _operator)
 
 	// Вернем строку
 	return stringOperator;
+}
+
+bool IsMassiveType(ValueType type)
+{
+	return type == ValueType::BoolArray || type == ValueType::ShortArray || type == ValueType::IntArray || type == ValueType::CharArray
+		|| type == ValueType::LongArray || type == ValueType::FloatArray || type == ValueType::DoubleArray;
+}
+
+ValueType GetResultTypeByMassiveType(ValueType type)
+{
+	switch (type)
+	{
+	case ValueType::BoolArray:
+		return ValueType::Bool;
+	case ValueType::ShortArray:
+		return ValueType::Short;
+	case ValueType::CharArray:
+		return ValueType::Char;
+	case ValueType::IntArray:
+		return ValueType::Int;
+	case ValueType::LongArray:
+		return ValueType::Long;
+	case ValueType::FloatArray:
+		return ValueType::Float;
+	case ValueType::DoubleArray:
+		return ValueType::Double;
+	default:
+		return ValueType::None;
+	}
 }

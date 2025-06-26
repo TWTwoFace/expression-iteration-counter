@@ -102,6 +102,24 @@ int Operation::GetIterationsCount(std::set<Operation*> &passedNodes, std::map<Op
         type = operationType;
     }
 
+    if (expOperator == Operator::TakingByIndex)
+    {
+        if (!IsMassiveType(operandTypes[0]) && !IsMassiveType(operandTypes[1]))
+        {
+            // Создадим и запишем в логгер ошибку о невалидном имени переменной
+            Error error(ErrorType::TreeFileInvalidMassiveType, "Переменная должна быть массивом, т.к. получаем ее элемент по индексу", "Tree file");
+            logger.LogError(error);
+        }
+        else
+        {
+            operandTypes[0] = GetResultTypeByMassiveType(operandTypes[0]);
+            operandTypes[1] = GetResultTypeByMassiveType(operandTypes[1]);
+
+            ValueType resultType = FetchTypes();
+            type = resultType;
+        }
+    }
+
     // Прибавим к общему количеству итераций количество итераций для текущей операции
     iterations += nodeIterations;
 

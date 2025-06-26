@@ -7,6 +7,7 @@ enum class ErrorType
 	FileCouldNotBeCreated,
 	TreeFileHasExtraLines,
 	TreeFileMissingOperator,
+	TreeFileInvalidMassiveType,
 	TreeFileHasNotExpression,
 	TreeFileHasUndefinedOperators,
 	TreeFileMissingOperand,

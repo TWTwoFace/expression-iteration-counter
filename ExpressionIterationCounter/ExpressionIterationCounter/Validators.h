@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <map>
 #include "Logger.h"
 #include "Operator.h"
 
@@ -9,14 +10,14 @@
 	\param[in] fileData - вектор строк из файла
 	\param[in,out] logger - логгер, для хранения возможных ошибок
 */
-bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& logger);
+bool ValidateTreeFile(const std::vector<std::string>& fileData, std::map<std::string, bool>* isVariablesMustBeMassive, ErrorLogger& logger);
 
 /*! Функция, валидирующая данные из файла типов переменных
 	\param[in] fileData - вектор строк из файла
 	\param[in] variables - вектор имен переменных, содержащихся в дереве
 	\param[in,out] logger - логгер, для хранения возможных ошибок
 */
-bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, bool IsTreeFileValid, ErrorLogger& logger);
+bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, std::map<std::string, bool>& isVariablesMustBeMassive, bool IsTreeFileValid, ErrorLogger& logger);
 
 /*! Функция, валидирующая данные из файла операторов
 	\param[in] fileData - вектор строк из файла

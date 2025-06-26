@@ -3,12 +3,13 @@
 #include <cstring>
 #include <stdexcept>
 #include <cmath>
+#include <map>
 #include "Utils.h"
 
 #pragma warning(disable: 4996)
 
 
-bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& logger)
+bool ValidateTreeFile(const std::vector<std::string>& fileData, std::map<std::string, bool> *isVariablesMassiveCorresponde, ErrorLogger& logger)
 {
 	// Если размер входного вектора равен нулю
 	if (fileData.size() == 0)
@@ -100,6 +101,15 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 					// Если токен равен "[]"
 					if (*token == "[]")
 					{
+						if (!IsValidVariableName(firstOperand))
+						{
+							// Считаем, что результат - false
+							result = false;
+							// Создадим и запишем в логгер ошибку о невалидном имени переменной
+							Error error(ErrorType::TreeFileInvalidMassiveType, "Первый операнд при взятии элемента по индексу должен быть переменной одного из типов массива", "Tree file");
+							logger.LogError(error);
+						}
+
 						// Попробуем преобразовать число в unsigned long
 						try
 						{
@@ -111,7 +121,7 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 								// Считаем что результат - false
 								result = false;
 								// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
-								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
+								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Вещественное число как индекс (должно быть натуральным)", "Tree file");
 								logger.LogError(error);
 							}
 
@@ -120,9 +130,11 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 								// Считаем что результат - false
 								result = false;
 								// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
-								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
+								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Отрицательное число как индекс (должно быть натуральным)", "Tree file");
 								logger.LogError(error);
 							}
+
+							(*isVariablesMassiveCorresponde)[firstOperand] = true;
 						}
 						// При неудаче
 						catch(std::exception const& ex) 
@@ -130,7 +142,7 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 							// Считаем что результат - false
 							result = false;
 							// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
-							Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
+							Error error(ErrorType::TreeFileInvalidValueAsIndex, "Индекс должен быть натуральным числом, чей максимум 2147483647", "Tree file");
 							logger.LogError(error);
 						}
 					}
@@ -194,7 +206,7 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 	return result;
 }
 
-bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, bool IsTreeFileValid, ErrorLogger& logger)
+bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<std::string>& variables, std::map<std::string, bool> &isVariablesMustBeMassive, bool IsTreeFileValid, ErrorLogger& logger)
 {
 	// Считаем что результат проверки - true
 	bool result = true;
@@ -312,6 +324,18 @@ bool ValidateTypesFile(const std::vector<std::string>& fileData, const std::set<
 			// Создадим и запишем в логгер ошибку о невалидном имени переменной
 			Error error(ErrorType::TypeFileHasInvalidVariableName, "Имя переменной задано некорректно (имя должно быть строкой, состоящей из английских букв в любом регистре)", "Types file");
 			logger.LogError(error);
+		}
+
+		if (isVariablesMustBeMassive[variable] == true)
+		{
+			if (!IsMassiveType(GetValueTypeByToken(type)))
+			{
+				// Считаем, что результат - false
+				result = false;
+				// Создадим и запишем в логгер ошибку о невалидном имени переменной
+				Error error(ErrorType::TreeFileInvalidMassiveType, "Переменная должна быть массивом, т.к. получаем ее элемент по индексу", "Tree file");
+				logger.LogError(error);
+			}
 		}
 
 		// Если имени переменной нет в переданном векторе существующих переменных в дереве разбора выражения и файл дерева валиден

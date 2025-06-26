@@ -16,6 +16,8 @@ constexpr const char* ErrorTypeToString(ErrorType e)
 		return "TreeFileHasExtraLines";
 	case ErrorType::TreeFileMissingOperator:
 		return "TreeFileMissingOperator";
+	case ErrorType::TreeFileInvalidMassiveType:
+		return "TreeFileInvalidMassiveType";
 	case ErrorType::TreeFileHasNotExpression:
 		return "TreeFileHasNotExpression";
 	case ErrorType::TreeFileHasUndefinedOperators:

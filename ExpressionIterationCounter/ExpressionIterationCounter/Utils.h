@@ -82,3 +82,7 @@ std::string GetValueTypeString(ValueType type);
 	\return соответствущую строку для элемента Operator
 */
 std::string GetOperatorString(Operator _operator);
+
+bool IsMassiveType(ValueType type);
+
+ValueType GetResultTypeByMassiveType(ValueType type);

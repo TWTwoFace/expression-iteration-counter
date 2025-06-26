@@ -19,14 +19,22 @@ namespace TestExpressionIterationCounter
 
 			std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
 			std::map<std::string, ValueType> variableCorrespondes;
-			iterationCorrespondes[Operator::Add] = std::map<ValueType, int>();
-			iterationCorrespondes[Operator::Add][ValueType::Int] = 10;
+			iterationCorrespondes[Operator::TakingByIndex] = std::map<ValueType, int>();
+			iterationCorrespondes[Operator::TakingByIndex][ValueType::IntArray] = 10;
+			iterationCorrespondes[Operator::Or][ValueType::Int] = 10;
 
-			Operation head(Operator::Add);
-			head.AddOperand(ValueType::Int);
-			head.AddOperand(ValueType::Int);
+			Operation l(Operator::TakingByIndex);
+			l.AddOperand(ValueType::Short);
+			l.AddOperand(ValueType::IntArray);
+			Operation r(Operator::TakingByIndex);
+			r.AddOperand(ValueType::Short);
+			r.AddOperand(ValueType::IntArray);
 
-			Assert::AreEqual(10, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
+			Operation head(Operator::Or);
+			head.leftChild = &l;
+			head.rightChild = &r;
+
+			Assert::AreEqual(30, head.GetIterationsCount(std::set<Operation*>(), iterationCorrespondes, variableCorrespondes, logger));
 		}
 
 		TEST_METHOD(VariableSameTypes)

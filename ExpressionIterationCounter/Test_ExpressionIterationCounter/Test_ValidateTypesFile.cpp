@@ -21,7 +21,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables, std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileHasUndefinedType }, logger));
 		}
@@ -34,7 +34,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileMissingTypeVariable }, logger));
 		}
@@ -47,7 +47,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileTypeOverlapsConstant }, logger));
 		}
@@ -60,7 +60,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileHasExtraVariable }, logger));
 		}
@@ -73,7 +73,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileTypeOverlapsKeyword }, logger));
 		}
@@ -86,7 +86,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(result && logger.IsEmpty());
 		}
@@ -99,7 +99,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileHasInvalidVariableName }, logger));
 		}
@@ -112,7 +112,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && IsErrorsInLogger({ ErrorType::TypeFileMissingVariableName }, logger));
 		}
@@ -125,7 +125,7 @@ namespace TestExpressionIterationCounter
 
 			ErrorLogger logger;
 
-			bool result = ValidateTypesFile(fileData, variables, true, logger);
+			bool result = ValidateTypesFile(fileData, variables,std::map<std::string, bool>(), true, logger);
 
 			Assert::IsTrue(!result && 
 				IsErrorsInLogger(

@@ -82,12 +82,13 @@ int main(int argc, char* argv[])
 	// Определение map'ов, храянящих соответствия имён переменных и их типов, операторов и их количество итераций для типов данных
 	std::map<std::string, ValueType> variablesTypesCorrepondes;
 	std::map<Operator, std::map<ValueType, int>> iterationCorrespondes;
+	std::map<std::string, bool> isVariablesMassiveCorrespondes;
 
 	// Проверка файла дерева на валидность
 	bool isTreeFileValid = false;
 	
 	if (isTreeFileRead)
-		isTreeFileValid = ValidateTreeFile(treeFileData, logger);
+		isTreeFileValid = ValidateTreeFile(treeFileData, &isVariablesMassiveCorrespondes, logger);
 
 	// Заполнение дерева операций из входных данных, если файл был прочитан и валиден
 	if (isTreeFileRead && isTreeFileValid)
@@ -185,7 +186,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Заполнение данных о переменных и их типах, если файл был прочитан и он валиден
-	if (isTypeFileRead && ValidateTypesFile(typesFileData, variables, isTreeFileValid, logger))
+	if (isTypeFileRead && ValidateTypesFile(typesFileData, variables, isVariablesMassiveCorrespondes, isTreeFileValid, logger))
 	{
 		// Пройдем по каждой строке входных данных
 		for (std::string line : typesFileData)
