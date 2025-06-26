@@ -92,9 +92,9 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 				else
 				{
 					// Определим два операнда в виде строк и снимем их со стека 
-					std::string firstOperand = operands.top();
-					operands.pop();
 					std::string secondOperand = operands.top();
+					operands.pop();
+					std::string firstOperand = operands.top();
 					operands.pop();
 
 					// Если токен равен "[]"
@@ -103,8 +103,26 @@ bool ValidateTreeFile(const std::vector<std::string>& fileData, ErrorLogger& log
 						// Попробуем преобразовать число в unsigned long
 						try
 						{
-							std::stoul(secondOperand);
+							double doubIndex = std::stod(secondOperand);
+							int intIndex = std::stoi(secondOperand);
 
+							if (doubIndex != intIndex)
+							{
+								// Считаем что результат - false
+								result = false;
+								// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
+								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
+								logger.LogError(error);
+							}
+
+							if (intIndex < 0)
+							{
+								// Считаем что результат - false
+								result = false;
+								// Создадим и запишем в логгер ошибку о невалидности числа как индекса массива
+								Error error(ErrorType::TreeFileInvalidValueAsIndex, "Некорректное число как индекс", "Tree file");
+								logger.LogError(error);
+							}
 						}
 						// При неудаче
 						catch(std::exception const& ex) 
